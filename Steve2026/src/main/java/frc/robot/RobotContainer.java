@@ -6,11 +6,14 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.commands.Autos;
+import frc.robot.commands.RunIntake;
 import frc.robot.commands.TeleopSwerve;
 import frc.robot.subsystems.Swerve;
+import frc.robot.subsystems.TestIntake;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -20,28 +23,40 @@ import frc.robot.subsystems.Swerve;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private final Swerve s_swerve = new Swerve();
+  private final Swerve s_Swerve = new Swerve();
+  private final TestIntake i_Intake = new TestIntake();
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
-  private final CommandXboxController driver =
-      new CommandXboxController(0);
+  private final XboxController driver =
+      new XboxController(0);
 
-  //Driver Controls
+  
   /* Drive Controls */
   private final int translationAxis = XboxController.Axis.kLeftY.value;
   private final int strafeAxis = XboxController.Axis.kLeftX.value;
   private final int rotationAxis = XboxController.Axis.kRightX.value;
 
+  /* Drive Buttons */
+  private final JoystickButton robotCentric = new JoystickButton(driver, XboxController.Button.kRightStick.value);
+  private final JoystickButton zeroGyro = new JoystickButton(driver, XboxController.Button.kStart.value);
+  private final JoystickButton intakeForward = new JoystickButton(driver, XboxController.Button.kRightBumper.value);
+  private final JoystickButton intakeReverse = new JoystickButton(driver, XboxController.Button.kLeftBumper.value);
+
+
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the trigger bindings
-    s_swerve.setDefaultCommand(
+    s_Swerve.setDefaultCommand(
         new TeleopSwerve(
-            s_swerve,
-            () -> -.3*driver.getRawAxis(translationAxis),
-            () -> -.3*driver.getRawAxis(strafeAxis) ,
-            () -> -.3*driver.getRawAxis(rotationAxis),
+            s_Swerve,
+            () -> -driver.getRawAxis(translationAxis),
+            () -> -driver.getRawAxis(strafeAxis),
+            () -> -driver.getRawAxis(rotationAxis),
             () -> robotCentric.getAsBoolean()));
+    i_Intake.setDefaultCommand(
+      new RunIntake(i_Intake, 
+        () -> intakeForward.getAsBoolean(),
+        () -> intakeReverse.getAsBoolean()));
     configureBindings();
   }
 
@@ -56,6 +71,7 @@ public class RobotContainer {
    */
   private void configureBindings() {
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
+    zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroHeading()));
   }
 
   /**
@@ -65,6 +81,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
-    return Autos.exampleAuto(m_exampleSubsystem);
+    return null;
   }
 }
