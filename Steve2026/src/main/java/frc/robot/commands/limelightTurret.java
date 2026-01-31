@@ -5,16 +5,17 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.Turrent;
-import frc.robot.subsystems.limelight;
+import frc.robot.subsystems.Turret;
+
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class limelightTurrent extends Command {
+public class limelightTurret extends Command {
   /** Creates a new limelightTurrent. */
-  private Turrent turrent;
-  private limelight Limelight;
-  public limelightTurrent(Turrent turrent, limelight Limelight) {
-    addRequirements(turrent,Limelight);
+  private Turret turret;
+
+  public limelightTurret(Turret turret) {
+    this.turret = turret;
+    addRequirements(turret);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -25,10 +26,9 @@ public class limelightTurrent extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (Turrent.getAngle()<90 && Turrent.getAngle()>-90  ){Turrent.turnMotor.set(Turrent.controller.calculate(0-limelight.tx));
+    turret.RunTurrent();
   }
-  else {Turrent.turnMotor.set(Turrent.controller.calculate(0-Turrent.getAngle()));}
-  }
+   
 
   // Called once the command ends or is interrupted.
   @Override

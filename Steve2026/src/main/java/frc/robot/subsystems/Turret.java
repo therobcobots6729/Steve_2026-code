@@ -4,38 +4,44 @@
 
 package frc.robot.subsystems;
 
-import com.revrobotics.AbsoluteEncoder;
+
 import com.revrobotics.RelativeEncoder;
-import com.revrobotics.encoder.DetachedEncoder.Model;
-import com.revrobotics.spark.SparkBase;
+
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
-import com.revrobotics.spark.config.SparkBaseConfig;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class Turrent extends SubsystemBase {
-  public static SparkMax turnMotor;
-  public static SparkBase sparkBase;
-  public static RelativeEncoder encoder;
-  public static PIDController controller = new PIDController(0.025, 0, 0);
+public class Turret extends SubsystemBase {
+  private  SparkMax turnMotor;
+  
+  private  RelativeEncoder encoder;
+  private  PIDController controller = new PIDController(0.025, 0, 0);//tune this a little more to stop the shakes
   
   /** Creates a new Turrent. */
-  public Turrent() {
+  public Turret(limelight Limelight) {
     turnMotor  = new SparkMax(17, MotorType.kBrushless);
+    
     encoder = turnMotor.getEncoder();
       
   }
 
-  public static double getAngle(){
+  private double getAngle(){
      double targetAngle = 360*encoder.getPosition()/90;
      return -targetAngle % 360;
   }
 
-/*************  ✨ Windsurf Command ⭐  *************/
-/*******  527f2b73-454f-4f1d-9af1-de791d175c7a  *******/
+  public void RunTurrent(){
+     if (getAngle()<90 && getAngle()>-90  ){turnMotor.set(controller.calculate(0-limelight.tx));
+  }
+     else {turnMotor.set(controller.calculate(0-getAngle()));}
+  }
+
+  
+
+
   @Override
   public void periodic() {
     SmartDashboard.putNumber("Turrent Angle", getAngle());

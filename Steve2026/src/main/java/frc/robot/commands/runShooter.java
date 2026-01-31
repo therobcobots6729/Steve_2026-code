@@ -12,6 +12,7 @@ public class runShooter extends Command {
   /** Creates a new runShooter. */
   private Shooter shooter;
   public runShooter(Shooter shooter) {
+    this.shooter = shooter;
     addRequirements(shooter);
     // Use addRequirements() here to declare subsystem dependencies.
   }
@@ -23,13 +24,15 @@ public class runShooter extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    Shooter.shooty.set(-.5);
+    
+    shooter.runShooter();
+
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    Shooter.shooty.set(0);
+    shooter.stop();
   }
 
   // Returns true when the command should end.

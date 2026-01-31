@@ -11,15 +11,14 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.RunIntake;
-import frc.robot.commands.RunTurrent;
-import frc.robot.commands.RunTurrent1;
+
 import frc.robot.commands.TeleopSwerve;
-import frc.robot.commands.limelightTurrent;
+import frc.robot.commands.limelightTurret;
 import frc.robot.commands.runShooter;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Swerve;
 import frc.robot.subsystems.TestIntake;
-import frc.robot.subsystems.Turrent;
+import frc.robot.subsystems.Turret;
 import frc.robot.subsystems.limelight;
 
 /**
@@ -32,9 +31,10 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final Swerve s_Swerve = new Swerve();
   private final TestIntake i_Intake = new TestIntake();
-  private final Turrent turrent = new Turrent();
-  private final limelight Limelight = new limelight();
-  private final Shooter shooter = new Shooter();  
+  
+  private final limelight Limelight = new limelight(); 
+  private final Turret turrent = new Turret(Limelight);
+  private final Shooter shooter = new Shooter(Limelight);  
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final XboxController driver =
@@ -70,7 +70,7 @@ public class RobotContainer {
         () -> intakeForward.getAsBoolean(),
         () -> intakeReverse.getAsBoolean()));
     turrent.setDefaultCommand( //this runs command automatically
-      new limelightTurrent(turrent, Limelight) );
+      new limelightTurret(turrent));
     configureBindings();
   }
 
