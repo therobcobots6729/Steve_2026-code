@@ -6,17 +6,17 @@ package frc.robot.commands;
 
 
 
-import edu.wpi.first.math.controller.PIDController;
+
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.Turrent;
+import frc.robot.subsystems.Turret;
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class RunTurrent extends Command {
-  private Turrent turrent;
+  //private Turret turret;
  
   
   /** Creates a new RunTurrent. */
-  public RunTurrent(Turrent turrent) {
-    addRequirements(turrent);
+  public RunTurrent(Turret turret) {
+    addRequirements(turret);
 
     // Use addRequirements() here to declare subsystem dependencies.
   }
@@ -32,14 +32,14 @@ public class RunTurrent extends Command {
   public void execute() {
     
   
-    Turrent.turnMotor.set(Turrent.controller.calculate(120-Turrent.getAngle()));
+    //Turret.turnMotor.set(Turret.controller.calculate(120-Turret.getAngle()));
   
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    Turrent.turnMotor.set(0);
+   // Turret.turnMotor.set(0);
   }
 
   // Returns true when the command should end.
