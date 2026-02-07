@@ -103,7 +103,7 @@ public class Limelight extends SubsystemBase {
 
     double theta = Math.toDegrees(Math.atan(lead / d));
 
-    return tx - theta;
+    return -(tx - theta);
   }
   public double distanceTarget(){
     double t = cachedFlightTime;
