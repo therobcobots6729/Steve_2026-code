@@ -18,23 +18,24 @@ public class Turret extends SubsystemBase {
   private  SparkMax turnMotor;
   
   private  RelativeEncoder encoder;
+  private Limelight limelight;
   private  PIDController controller = new PIDController(0.025, 0, 0);//tune this a little more to stop the shakes
   
   /** Creates a new Turrent. */
-  public Turret(limelight Limelight) {
+  public Turret(Limelight Limelight) {
     turnMotor  = new SparkMax(17, MotorType.kBrushless);
     
     encoder = turnMotor.getEncoder();
       
   }
 
-  private double getAngle(){
+  public double getAngle(){
      double targetAngle = 360*encoder.getPosition()/90;
      return -targetAngle % 360;
   }
 
   public void RunTurrent(){
-     if (getAngle()<90 && getAngle()>-90  ){turnMotor.set(controller.calculate(0-limelight.tx));
+     if (getAngle()<90 && getAngle()>-90  ){turnMotor.set(controller.calculate(limelight.turret_Target()));
   }
      else {turnMotor.set(controller.calculate(0-getAngle()));}
   }

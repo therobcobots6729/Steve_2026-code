@@ -20,8 +20,9 @@ public class Shooter extends SubsystemBase {
   private  TalonFX shooty;
   private  VelocityVoltage shoot;
   private  Slot0Configs pid;
+  private Limelight limelight;
 
-  public Shooter(limelight Limelight) {
+  public Shooter(Limelight limelight) {
     shooty = new TalonFX(32);
     
      pid = new Slot0Configs();
@@ -44,13 +45,9 @@ public class Shooter extends SubsystemBase {
     
   }
   
-  private double speed(){
-    double targetRPM = limelight.speed;
-    double RPS = targetRPM / 60.0;
-    return RPS;
-  }
+  
   public void runShooter() {
-  shooty.setControl(shoot.withVelocity(speed()));
+  shooty.setControl(shoot.withVelocity(limelight.distanceTarget()));
 }
 
 
@@ -60,7 +57,7 @@ public class Shooter extends SubsystemBase {
 
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("target Shooter velocity", speed()*60);
+    
     SmartDashboard.putNumber("Actual Shooter velocity", shooty.getVelocity().getValueAsDouble());
     // This method will be called once per scheduler run
   }

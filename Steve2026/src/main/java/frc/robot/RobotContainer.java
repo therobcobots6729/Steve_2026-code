@@ -19,7 +19,7 @@ import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Swerve;
 import frc.robot.subsystems.TestIntake;
 import frc.robot.subsystems.Turret;
-import frc.robot.subsystems.limelight;
+import frc.robot.subsystems.Limelight;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -32,7 +32,7 @@ public class RobotContainer {
   private final Swerve s_Swerve = new Swerve();
   private final TestIntake i_Intake = new TestIntake();
   
-  private final limelight Limelight = new limelight(); 
+  private final Limelight Limelight = new Limelight(); 
   private final Turret turrent = new Turret(Limelight);
   private final Shooter shooter = new Shooter(Limelight);  
 

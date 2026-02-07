@@ -24,6 +24,7 @@ public class Swerve extends SubsystemBase {
   // public static AHRS gyro;
   public Pigeon2 gyro;
   public RobotConfig Rconfig;
+  private Turret turret;
   public Swerve() {
     
        // Handle exception as needed
@@ -154,6 +155,14 @@ public void driveRobotRelative(ChassisSpeeds desiredChassisSpeeds, boolean isOpe
     }
   }
   
+  public Translation2d turretVelocity(){
+    ChassisSpeeds T = getCurrentSpeeds();
+    double vx = T.vxMetersPerSecond;
+    double vy = T.vyMetersPerSecond;
+    Translation2d h = new Translation2d(vx,vy);
+    Translation2d g =h.rotateBy(Rotation2d.fromDegrees(turret.getAngle()).unaryMinus());
+    return g;
+  } 
 
   @Override
   public void periodic() {
