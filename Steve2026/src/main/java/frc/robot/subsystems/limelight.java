@@ -135,6 +135,7 @@ public class Limelight extends SubsystemBase {
     SmartDashboard.putNumber("ty1", ty.getDouble(0.0));
     SmartDashboard.putNumber("tid1", tid1.getDouble(0.0));
     SmartDashboard.putNumber("target Shooter velocity", speed()*60);
+    SmartDashboard.putNumber("distance", distance());
 
     // This method will be called once per scheduler run
   }
