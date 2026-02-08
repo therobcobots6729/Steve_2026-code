@@ -17,12 +17,14 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Turret extends SubsystemBase {
   private  SparkMax turnMotor;
-  
+  private double MIN_ANGLE = -170;
+  private double MAX_ANGLE = 170;
+
   private  RelativeEncoder encoder;
   private Limelight limelight;
   private  PIDController controller = new PIDController(0.025, 0, 0);//tune this a little more to stop the shakes
   
-  /** Creates a new Turrent. */
+  /** Creates a new Turret. */
   public Turret(Limelight limelight) {
     this.limelight = limelight;
     turnMotor  = new SparkMax(17, MotorType.kBrushless);
@@ -37,11 +39,17 @@ public class Turret extends SubsystemBase {
      return MathUtil.inputModulus(-targetAngle, -180, 180);
   }
 
-  public void RunTurrent(){
+  public void runTurrent(){
      double current = getAngle();
      double target = limelight.turret_Target();
-     target = MathUtil.clamp(target, -90, 90);
+     if (target>MAX_ANGLE){
+      target = target -360;
+     }
+     else if (target <MIN_ANGLE){
+      target = target +360;
+     }
      double output = controller.calculate(current,target);
+     output = MathUtil.clamp(output, -1.0, 1.0);
      if(controller.atSetpoint()){
       turnMotor.set(0);
      }
@@ -55,7 +63,7 @@ public class Turret extends SubsystemBase {
 
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("Turrent Angle", getAngle());
+    SmartDashboard.putNumber("Turret Angle", getAngle());
     SmartDashboard.putNumber("Tmotor", encoder.getPosition());
     // This method will be called once per scheduler run
   }
