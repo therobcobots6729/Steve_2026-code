@@ -85,7 +85,7 @@ public class Shooter extends SubsystemBase {
   public void periodic() {
    
     
-    
+    SmartDashboard.putBoolean("Fire?", atSpeed());
     SmartDashboard.putNumber("Actual Shooter velocity", shooty.getVelocity().getValueAsDouble());
     SmartDashboard.putNumber("Filtered Distance", distanceFilter.calculate(limelight.getHeldDistanceMeters()));
     

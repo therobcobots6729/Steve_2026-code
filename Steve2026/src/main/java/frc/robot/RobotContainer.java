@@ -7,6 +7,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -15,11 +16,13 @@ import frc.robot.commands.RunIntake;
 import frc.robot.commands.TeleopSwerve;
 import frc.robot.commands.AutoTurret;
 import frc.robot.commands.ManTurret;
+import frc.robot.commands.RunIndexer;
 import frc.robot.commands.runShooter;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Swerve;
 import frc.robot.subsystems.TestIntake;
 import frc.robot.subsystems.Turret;
+import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Limelight;
 
 /**
@@ -32,7 +35,7 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final Swerve s_Swerve = new Swerve();
   private final TestIntake i_Intake = new TestIntake();
-  
+  private final Indexer indexer = new Indexer();
   private final Limelight Limelight = new Limelight(); 
   private final Turret turret = new Turret(Limelight);
   private final Shooter shooter = new Shooter(Limelight);  
@@ -89,7 +92,7 @@ public class RobotContainer {
   private void configureBindings() {
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
     zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroHeading()));
-    rightTrigger.whileTrue(new runShooter(shooter));
+    rightTrigger.whileTrue(new ParallelCommandGroup(new runShooter(shooter), new RunIndexer(indexer)));
     
     manTurret.whileTrue(new ManTurret(turret));
 
