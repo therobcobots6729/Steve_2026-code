@@ -15,15 +15,15 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Limelight extends SubsystemBase {
   /** Creates a new limelight. */
-  public static double tx;
-  public static double limelightMountAngleDegrees;
-  public static double limelimelightLensHeightInches;
-  public static double GoalHeightInches;
-  public static double d;
-  public static NetworkTable table1;
-  public static NetworkTableEntry tx1;
-  public static NetworkTableEntry ty;
-  public static NetworkTableEntry tid1;
+  private double tx;
+  private double limelightMountAngleDegrees;
+  private double limelimelightLensHeightInches;
+  private double GoalHeightInches;
+  
+  private NetworkTable table1;
+  private NetworkTableEntry tx1;
+  private NetworkTableEntry ty;
+  private NetworkTableEntry tid1;
   private Swerve swerve;
  private double cachedFlightTime;
 
