@@ -9,6 +9,7 @@ package frc.robot.subsystems;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -25,7 +26,10 @@ public class Limelight extends SubsystemBase {
   private NetworkTableEntry ty;
   private NetworkTableEntry tid1;
   private NetworkTableEntry tv;
-  
+  private double lastValidDistance = 0;
+  private double lastSeenTime = 0;
+  private static final double TARGET_MEMORY_TIME = 0.6; // seconds
+
   private Swerve swerve;
   private Turret turret;
  private double cachedFlightTime;
@@ -67,7 +71,7 @@ public void updateTargetHeading()
      double d = distanceFromLimelighttoGoalInches;
      return d;
   }
-  private double distanceMeters(){
+  public double distanceMeters(){
 
     return distance() * 0.0254;   // inches → meters
 }
@@ -102,17 +106,17 @@ public void updateTargetHeading()
     double vEffective = vShot + vToward;
 
     
-    if (vEffective < 0.5)
-        return 0;
-
-    return d / vEffective;
+    if (vEffective < 0.5){
+        return 0;}
+    else{
+    return d / vEffective;}
   }
   public double turret_Target(){
         double t = cachedFlightTime;
 
-    if(t == 0)
-        return 0;
-
+    if(t == 0){
+        return 0;}
+    else{
     double d = distanceMeters();
 
     // sideways robot motion
@@ -122,26 +126,42 @@ public void updateTargetHeading()
 
     double theta = Math.toDegrees(Math.atan(lead / d));
 
-    return -(theta);
+    return -(theta);}
   }
   public double distanceTarget(){
     double t = cachedFlightTime;
 
-    if (t == 0) // prevents divide by zero 
-        return distanceMeters();
+    if (t == 0) {// prevents divide by zero 
+        return distanceMeters();}
 
-    
+    else{
 
     double effectiveDistance = velocity() * flightTime();
 
-    return effectiveDistance;
+    return effectiveDistance;}
 
   }
+  public double getHeldDistanceMeters(){
+
+    double timeSinceSeen = Timer.getFPGATimestamp() - lastSeenTime;
+
+    // still trust last measurement
+    if(timeSinceSeen < TARGET_MEMORY_TIME){
+        return lastValidDistance;
+    }
+    else{
+    // target gone too long → stop trusting
+    return 0;}
+}
   @Override
   public void periodic() {
       tx = tx1.getDouble(0.0);
       targetOffsetAngle_Vertical = ty.getDouble(0.0);
-      
+    
+      if(hasTarget()){
+        lastValidDistance = distanceMeters();
+        lastSeenTime = Timer.getFPGATimestamp();
+    }
       cachedFlightTime = flightTime();
       updateTargetHeading();
 
@@ -158,7 +178,7 @@ public void updateTargetHeading()
     SmartDashboard.putNumber("target Shooter velocity", speed()*60);
     SmartDashboard.putNumber("distance", distance());
     SmartDashboard.putBoolean("target", hasTarget());
-
+    
     // This method will be called once per scheduler run
   }
 }

@@ -11,7 +11,7 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
-
+import edu.wpi.first.math.filter.LinearFilter;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -21,8 +21,15 @@ public class Shooter extends SubsystemBase {
   private  VelocityVoltage shoot;
   private  Slot0Configs pid;
   private Limelight limelight;
+  private boolean hadTargetLastLoop = false;
+
+  
+  private LinearFilter distanceFilter = LinearFilter.movingAverage(5);
+
+
 
   public Shooter(Limelight limelight) {
+    this.limelight = limelight;
     shooty = new TalonFX(32);
     
      pid = new Slot0Configs();
@@ -44,10 +51,29 @@ public class Shooter extends SubsystemBase {
    shoot = new VelocityVoltage(0);
     
   }
-  
-  
+ 
+
+  public boolean atSpeed(){
+    return Math.abs(shooty.getVelocity().getValueAsDouble() - distanceFilter.calculate(limelight.getHeldDistanceMeters())) < 2.0;
+}
+
   public void runShooter() {
-  shooty.setControl(shoot.withVelocity(limelight.distanceTarget()));
+    boolean hasTarget = limelight.getHeldDistanceMeters()> 0;
+
+    if(hasTarget && !hadTargetLastLoop){
+       distanceFilter.reset();
+}
+
+
+    hadTargetLastLoop = hasTarget; 
+
+     if (limelight.getHeldDistanceMeters()>0){
+     double filteredDistance = distanceFilter.calculate(limelight.getHeldDistanceMeters());
+     shooty.setControl(shoot.withVelocity(filteredDistance));}
+
+     else{
+      stop();
+     }
 }
 
 
@@ -57,8 +83,12 @@ public class Shooter extends SubsystemBase {
 
   @Override
   public void periodic() {
+   
+    
     
     SmartDashboard.putNumber("Actual Shooter velocity", shooty.getVelocity().getValueAsDouble());
+    SmartDashboard.putNumber("Filtered Distance", distanceFilter.calculate(limelight.getHeldDistanceMeters()));
+    
     // This method will be called once per scheduler run
   }
 }

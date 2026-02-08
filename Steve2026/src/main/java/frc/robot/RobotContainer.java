@@ -13,7 +13,8 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.RunIntake;
 
 import frc.robot.commands.TeleopSwerve;
-import frc.robot.commands.limelightTurret;
+import frc.robot.commands.AutoTurret;
+import frc.robot.commands.ManTurret;
 import frc.robot.commands.runShooter;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Swerve;
@@ -45,14 +46,16 @@ public class RobotContainer {
   private final int translationAxis = XboxController.Axis.kLeftY.value;
   private final int strafeAxis = XboxController.Axis.kLeftX.value;
   private final int rotationAxis = XboxController.Axis.kRightX.value;
+  Trigger rightTrigger = new Trigger(() -> driver.getRightTriggerAxis() > .15 );
+
 
   /* Drive Buttons */
   private final JoystickButton robotCentric = new JoystickButton(driver, XboxController.Button.kRightStick.value);
   private final JoystickButton zeroGyro = new JoystickButton(driver, XboxController.Button.kStart.value);
   private final JoystickButton intakeForward = new JoystickButton(driver, XboxController.Button.kRightBumper.value);
   private final JoystickButton intakeReverse = new JoystickButton(driver, XboxController.Button.kLeftBumper.value);
-  private final JoystickButton turretLeft = new JoystickButton(driver, XboxController.Button.kY.value);  
-  private final JoystickButton turretRight = new JoystickButton(driver, XboxController.Button.kX.value);
+  private final JoystickButton manTurret = new JoystickButton(driver, XboxController.Button.kY.value);  
+  
 
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -70,7 +73,7 @@ public class RobotContainer {
         () -> intakeForward.getAsBoolean(),
         () -> intakeReverse.getAsBoolean()));
     turrent.setDefaultCommand( //this runs command automatically
-      new limelightTurret(turrent));
+      new AutoTurret(turrent));
     configureBindings();
   }
 
@@ -86,8 +89,11 @@ public class RobotContainer {
   private void configureBindings() {
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
     zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroHeading()));
-    turretLeft.whileTrue(new runShooter(shooter));
-    turretRight.whileTrue(new runShooter(shooter));
+    rightTrigger.whileTrue(new runShooter(shooter));
+    
+    manTurret.whileTrue(new ManTurret(turrent));
+
+    
   }
 
   /**
