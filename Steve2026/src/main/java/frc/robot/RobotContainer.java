@@ -34,7 +34,7 @@ public class RobotContainer {
   private final TestIntake i_Intake = new TestIntake();
   
   private final Limelight Limelight = new Limelight(); 
-  private final Turret turrent = new Turret(Limelight);
+  private final Turret turret = new Turret(Limelight);
   private final Shooter shooter = new Shooter(Limelight);  
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
@@ -72,8 +72,8 @@ public class RobotContainer {
       new RunIntake(i_Intake, 
         () -> intakeForward.getAsBoolean(),
         () -> intakeReverse.getAsBoolean()));
-    turrent.setDefaultCommand( //this runs command automatically
-      new AutoTurret(turrent));
+    turret.setDefaultCommand( //this runs command automatically
+      new AutoTurret(turret));
     configureBindings();
   }
 
@@ -91,7 +91,7 @@ public class RobotContainer {
     zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroHeading()));
     rightTrigger.whileTrue(new runShooter(shooter));
     
-    manTurret.whileTrue(new ManTurret(turrent));
+    manTurret.whileTrue(new ManTurret(turret));
 
     
   }
