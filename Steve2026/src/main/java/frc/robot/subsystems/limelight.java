@@ -15,7 +15,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Limelight extends SubsystemBase {
   /** Creates a new limelight. */
-  private double tx;
+  public static double tx;
   private double limelightMountAngleDegrees;
   private double limelimelightLensHeightInches;
   private double GoalHeightInches;
@@ -24,9 +24,12 @@ public class Limelight extends SubsystemBase {
   private NetworkTableEntry tx1;
   private NetworkTableEntry ty;
   private NetworkTableEntry tid1;
+  private NetworkTableEntry tv;
+  
   private Swerve swerve;
+  private Turret turret;
  private double cachedFlightTime;
-
+  public double targetHeadingDeg = 0;
   
 
   private double targetOffsetAngle_Vertical;
@@ -39,8 +42,24 @@ public class Limelight extends SubsystemBase {
      tx1 = table1.getEntry("tx");
      ty = table1.getEntry("ty");
      tid1 = table1.getEntry("tid");
+     tv = table1.getEntry("tv");
      
   }
+  public boolean hasTarget(){
+    return tv.getDouble(0.0) > 0.5;
+}
+  private double wrapAngle(double angle){
+    while(angle > 180) angle -= 360;
+    while(angle < -180) angle += 360;
+    return angle;
+}
+public void updateTargetHeading()
+{
+    if (hasTarget()) {
+        targetHeadingDeg = wrapAngle(turret.getAngle() + tx);
+    }
+}
+
   private double distance(){
     double angletoGoalDegrees = limelightMountAngleDegrees + targetOffsetAngle_Vertical;
      double angletoGoalRadians= angletoGoalDegrees * (3.14159/180);
@@ -53,7 +72,7 @@ public class Limelight extends SubsystemBase {
     return distance() * 0.0254;   // inches → meters
 }
 
-                //create f(d) based on tested values,   get an upper and lower limit for each distance. 
+                //create f(distance()) based on tested values,   get an upper and lower limit for each distance. 
                 // either use nplot to set the distance and the required speed
                 // either use nplot to set the distance and the required speed+-room for error/2 and use the best fit line
                 // or send me the values and i will send you back the correct function
@@ -80,7 +99,7 @@ public class Limelight extends SubsystemBase {
     double vToward = swerve.turretVelocity().getX();
 
    
-    double vEffective = vShot - vToward;
+    double vEffective = vShot + vToward;
 
     
     if (vEffective < 0.5)
@@ -92,7 +111,7 @@ public class Limelight extends SubsystemBase {
         double t = cachedFlightTime;
 
     if(t == 0)
-        return tx;
+        return 0;
 
     double d = distanceMeters();
 
@@ -103,7 +122,7 @@ public class Limelight extends SubsystemBase {
 
     double theta = Math.toDegrees(Math.atan(lead / d));
 
-    return -(tx - theta);
+    return -(theta);
   }
   public double distanceTarget(){
     double t = cachedFlightTime;
@@ -122,7 +141,9 @@ public class Limelight extends SubsystemBase {
   public void periodic() {
       tx = tx1.getDouble(0.0);
       targetOffsetAngle_Vertical = ty.getDouble(0.0);
+      
       cachedFlightTime = flightTime();
+      updateTargetHeading();
 
      
      
