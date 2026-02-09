@@ -193,6 +193,7 @@ public void driveRobotRelative(ChassisSpeeds desiredChassisSpeeds, boolean isOpe
           "Mod " + mod.moduleNumber + " Velocity", mod.getState().speedMetersPerSecond);
           SmartDashboard.putNumber("Yaw", gyro.getYaw().getValueAsDouble());
           SmartDashboard.putNumber("HEADING", getPose().getRotation().getDegrees());
+          SmartDashboard.putNumber("Turret heading", turretVelocity().getAngle().getDegrees());
 
     }
   }
