@@ -16,7 +16,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Limelight extends SubsystemBase {
   /** Creates a new limelight. */
-  private double tx;
+  public static double tx;
   private double limelightMountAngleDegrees;
   private double limelimelightLensHeightInches;
   private double GoalHeightInches;
@@ -31,7 +31,7 @@ public class Limelight extends SubsystemBase {
   private static final double TARGET_MEMORY_TIME = 0.6; // seconds
 
  
- 
+  private Turret turret;
  
   public double targetHeadingDeg = 0;
   
@@ -52,7 +52,17 @@ public class Limelight extends SubsystemBase {
   public boolean hasTarget(){
     return tv.getDouble(0.0) > 0.5;
 }
-
+  private double wrapAngle(double angle){
+    while(angle > 180) angle -= 360;
+    while(angle < -180) angle += 360;
+    return angle;
+}
+public void updateTargetHeading()
+{
+    if (hasTarget()) {
+        targetHeadingDeg = wrapAngle(turret.getAngle() + tx);
+    }
+}
 
   private double distance(){
     double angletoGoalDegrees = limelightMountAngleDegrees + targetOffsetAngle_Vertical;
@@ -65,11 +75,10 @@ public class Limelight extends SubsystemBase {
 
     return distance() * 0.0254;   // inches → meters
 }
-public double getTX(){
-  tx = tx1.getDouble(0.0);
-  return tx;
-}
-
+  public double getTX(){
+    tx = tx1.getDouble(0.0);
+    return tx;
+  }
                 //create f(distance()) based on tested values,   get an upper and lower limit for each distance. 
                 // either use nplot to set the distance and the required speed
                 // either use nplot to set the distance and the required speed+-room for error/2 and use the best fit line
@@ -98,7 +107,7 @@ public double getTX(){
         lastSeenTime = Timer.getFPGATimestamp();
     }
       
-     
+      updateTargetHeading();
 
      
      
