@@ -53,11 +53,11 @@ public class Turret extends SubsystemBase {
     // limit logic with forced wrap
     if (turretAngle >= 170 && commandedError > 0) {
         // blocked going positive → go full turn negative
-        commandedError = error - 360;
+        commandedError = error - 340;
     }
     else if (turretAngle <= -170 && commandedError < 0) {
         // blocked going negative → go full turn positive
-        commandedError = error + 360;
+        commandedError = error + 340;
     }
 
     double output = controller.calculate(commandedError, 0);
