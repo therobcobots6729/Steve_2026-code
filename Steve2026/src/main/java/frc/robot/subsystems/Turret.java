@@ -17,16 +17,18 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Turret extends SubsystemBase {
   private  SparkMax turnMotor;
-  private double MIN_ANGLE = -170;
-  private double MAX_ANGLE = 170;
+ 
 
   private  RelativeEncoder encoder;
-  private Limelight limelight;
+  
+  private Angle angle;
+  
   private  PIDController controller = new PIDController(0.025, 0, 0);//tune this a little more to stop the shakes
   
   /** Creates a new Turret. */
-  public Turret(Limelight limelight) {
-    this.limelight = limelight;
+  public Turret( Angle angle) {
+ 
+    this.angle = angle;
     turnMotor  = new SparkMax(17, MotorType.kBrushless);
     controller.enableContinuousInput(-180, 180);
     controller.setTolerance(1.0);
@@ -39,24 +41,30 @@ public class Turret extends SubsystemBase {
      return MathUtil.inputModulus(-targetAngle, -180, 180);
   }
 
-  public void runTurrent(){
-     double current = getAngle();
-     double target = limelight.turret_Target();
-     if (target>MAX_ANGLE){
-      target = target -360;
-     }
-     else if (target <MIN_ANGLE){
-      target = target +360;
-     }
-     double output = controller.calculate(current,target);
-     output = MathUtil.clamp(output, -1.0, 1.0);
-     if(controller.atSetpoint()){
-      turnMotor.set(0);
-     }
-     else{
-     turnMotor.set(output);
-     }
-  }
+ public void runTurrent(){
+
+    double error = angle.turret_Target();  // tx + lead
+
+    double turretAngle = getAngle(); // [-180, 180]
+
+    // normal control
+    double commandedError = error;
+
+    // limit logic with forced wrap
+    if (turretAngle >= 170 && commandedError > 0) {
+        // blocked going positive → go full turn negative
+        commandedError = error - 360;
+    }
+    else if (turretAngle <= -170 && commandedError < 0) {
+        // blocked going negative → go full turn positive
+        commandedError = error + 360;
+    }
+
+    double output = controller.calculate(commandedError, 0);
+    output = MathUtil.clamp(output, -1.0, 1.0);
+
+    turnMotor.set(output);
+}
 
   
 

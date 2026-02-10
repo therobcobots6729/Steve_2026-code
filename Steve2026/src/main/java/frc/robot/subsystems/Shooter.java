@@ -20,7 +20,7 @@ public class Shooter extends SubsystemBase {
   private  TalonFX shooty;
   private  VelocityVoltage shoot;
   private  Slot0Configs pid;
-  private Limelight limelight;
+  private Velocity velocity;
   private boolean hadTargetLastLoop = false;
 
   
@@ -28,8 +28,9 @@ public class Shooter extends SubsystemBase {
 
 
 
-  public Shooter(Limelight limelight) {
-    this.limelight = limelight;
+  public Shooter(Velocity velocity) {
+    this.velocity = velocity;
+    
     shooty = new TalonFX(32);
     
      pid = new Slot0Configs();
@@ -54,11 +55,11 @@ public class Shooter extends SubsystemBase {
  
 
   public boolean atSpeed(){
-    return Math.abs(shooty.getVelocity().getValueAsDouble() - distanceFilter.calculate(limelight.getHeldDistanceMeters())) < 2.0;
+    return Math.abs(shooty.getVelocity().getValueAsDouble() - distanceFilter.calculate(velocity.outputSpeed())) < 2.0;
 }
 
   public void runShooter() {
-    boolean hasTarget = limelight.getHeldDistanceMeters()> 0;
+    boolean hasTarget = velocity.outputSpeed()> 0;
 
     if(hasTarget && !hadTargetLastLoop){
        distanceFilter.reset();
@@ -67,8 +68,8 @@ public class Shooter extends SubsystemBase {
 
     hadTargetLastLoop = hasTarget; 
 
-     if (limelight.getHeldDistanceMeters()>0){
-     double filteredDistance = distanceFilter.calculate(limelight.getHeldDistanceMeters());
+     if (velocity.outputSpeed()>0){
+     double filteredDistance = distanceFilter.calculate(velocity.outputSpeed());
      shooty.setControl(shoot.withVelocity(filteredDistance));}
 
      else{
@@ -87,7 +88,7 @@ public class Shooter extends SubsystemBase {
     
     SmartDashboard.putBoolean("Fire?", atSpeed());
     SmartDashboard.putNumber("Actual Shooter velocity", shooty.getVelocity().getValueAsDouble());
-    SmartDashboard.putNumber("Filtered Distance", distanceFilter.calculate(limelight.getHeldDistanceMeters()));
+    SmartDashboard.putNumber("Filtered Distance", distanceFilter.calculate(velocity.outputSpeed()));
     
     // This method will be called once per scheduler run
   }

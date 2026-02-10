@@ -166,7 +166,7 @@ public void driveRobotRelative(ChassisSpeeds desiredChassisSpeeds, boolean isOpe
 
     Translation2d g =h.rotateBy(Rotation2d.fromDegrees(limelight.targetHeadingDeg).unaryMinus());
     double omega = Math.toRadians(gyro.getAngularVelocityZWorld().getValueAsDouble());
-    Translation2d turretPos = new Translation2d(0.32, 0.0); // 32cm forward of center
+    Translation2d turretPos = new Translation2d(0.18415, 0.0); // 32cm forward of center
 
 // rotational velocity vector (perpendicular to radius)
     Translation2d rotationalVel =
