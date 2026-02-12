@@ -68,7 +68,7 @@ public class Shooter extends SubsystemBase {
 
     hadTargetLastLoop = hasTarget; 
 
-     if (velocity.outputSpeed()>0){
+     if (velocity.outputSpeed()>0 && velocity.outputSpeed() <=105){
      double filteredDistance = distanceFilter.calculate(velocity.outputSpeed());
      shooty.setControl(shoot.withVelocity(filteredDistance));}
 
