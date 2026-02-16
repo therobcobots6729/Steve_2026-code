@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.RunIntake;
-
+import frc.robot.commands.Shooty;
 import frc.robot.commands.TeleopSwerve;
 import frc.robot.commands.AutoTurret;
 import frc.robot.commands.ManTurret;
@@ -33,16 +33,21 @@ import frc.robot.subsystems.Limelight;
  * periodic methods (other than the scheduler calls). Instead, the structure of the robot (including
  * subsystems, commands, and trigger mappings) should be declared here.
  */
+
+
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private final Swerve s_Swerve = new Swerve();
+  
   private final TestIntake i_Intake = new TestIntake();
-  private final Indexer indexer = new Indexer();
+  
   private final Limelight Limelight = new Limelight(); 
+  private final Swerve s_Swerve = new Swerve(Limelight);
   private final Velocity velocity = new Velocity(Limelight, s_Swerve);
   private final Angle angle = new Angle(velocity, s_Swerve, Limelight);
   private final Turret turret = new Turret(angle);
+  
   private final Shooter shooter = new Shooter(velocity);  
+  private final Indexer indexer = new Indexer(shooter);
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final XboxController driver =
@@ -61,7 +66,8 @@ public class RobotContainer {
   private final JoystickButton zeroGyro = new JoystickButton(driver, XboxController.Button.kStart.value);
   private final JoystickButton intakeForward = new JoystickButton(driver, XboxController.Button.kRightBumper.value);
   private final JoystickButton intakeReverse = new JoystickButton(driver, XboxController.Button.kLeftBumper.value);
-  private final JoystickButton manTurret = new JoystickButton(driver, XboxController.Button.kY.value);  
+    private final JoystickButton manTurret = new JoystickButton(driver, XboxController.Button.kY.value);  
+    private final JoystickButton shoot = new JoystickButton(driver, XboxController.Button.kX.value);  
   
 
 
@@ -75,10 +81,7 @@ public class RobotContainer {
             () -> -driver.getRawAxis(strafeAxis),
             () -> -driver.getRawAxis(rotationAxis),
             () -> robotCentric.getAsBoolean()));
-    i_Intake.setDefaultCommand(
-      new RunIntake(i_Intake, 
-        () -> intakeForward.getAsBoolean(),
-        () -> intakeReverse.getAsBoolean()));
+    
     turret.setDefaultCommand( //this runs command automatically
       new AutoTurret(turret));
     configureBindings();
@@ -96,9 +99,11 @@ public class RobotContainer {
   private void configureBindings() {
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
     zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroHeading()));
-    rightTrigger.whileTrue(new ParallelCommandGroup(new runShooter(shooter), new RunIndexer(indexer)));
     
+    intakeForward.whileTrue(new ParallelCommandGroup(new RunIntake(i_Intake), new RunIndexer(indexer)));
     manTurret.whileTrue(new ManTurret(turret));
+    shoot.whileTrue(new Shooty(shooter));
+    
 
     
   }

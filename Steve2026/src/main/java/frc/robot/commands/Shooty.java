@@ -4,19 +4,16 @@
 
 package frc.robot.commands;
 
-
-
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.TestIntake;
+import frc.robot.subsystems.Shooter;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class RunIntake extends Command {
-  private TestIntake testIntake;
-  /** Creates a new RunIntake. */
-  public RunIntake(TestIntake testIntake) {
-    addRequirements(testIntake);
-    this.testIntake = testIntake;
-    
+public class Shooty extends Command {
+  private Shooter shoot;
+  /** Creates a new Shooty. */
+  public Shooty(Shooter shoot) {
+    this.shoot = shoot;
+    addRequirements(shoot);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -27,13 +24,14 @@ public class RunIntake extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    testIntake.runIntake();
+    shoot.runShooty();
+
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    testIntake.stopIntake();
+    shoot.stop();
   }
 
   // Returns true when the command should end.

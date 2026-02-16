@@ -26,7 +26,10 @@ public class Swerve extends SubsystemBase {
   public RobotConfig Rconfig;
 
   private Limelight limelight;
-  public Swerve() {
+  public Swerve(Limelight limelight) {
+    this.limelight = limelight;
+  
+    
     
        // Handle exception as needed
        

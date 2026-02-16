@@ -43,7 +43,7 @@ public class Shooter extends SubsystemBase {
     TalonFXConfiguration config = new TalonFXConfiguration();
     config.Slot0 = pid;
     config.MotorOutput.NeutralMode = NeutralModeValue.Coast;
-    config.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
+    config.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
     config.CurrentLimits.SupplyCurrentLimit = 40;
     config.CurrentLimits.SupplyCurrentLimitEnable = true;
 
@@ -64,6 +64,7 @@ public class Shooter extends SubsystemBase {
     if(hasTarget && !hadTargetLastLoop){
        distanceFilter.reset();
 }
+  
 
 
     hadTargetLastLoop = hasTarget; 
@@ -75,7 +76,11 @@ public class Shooter extends SubsystemBase {
      else{
       stop();
      }
+
 }
+public void runShooty(){
+    shooty.setControl(shoot.withVelocity(50.5)); // 45.5-47at 23.0   52went in w/o touching sides-55 at 34  46 at 29.4 went in w/o touching sides
+  }                                                         //  46-48 at 26.3   49-52at 31.9
 
 
   public void stop() {
