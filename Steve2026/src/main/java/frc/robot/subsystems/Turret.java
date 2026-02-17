@@ -76,7 +76,7 @@ public void looking(){
     }
     else if (turretAngle <= -170 && commandedError < 0) {
         // blocked going negative → go full turn positive
-        commandedError = error + 1;
+        commandedError = error + 2;
         
     }
     double output = controller.calculate(0-commandedError);
