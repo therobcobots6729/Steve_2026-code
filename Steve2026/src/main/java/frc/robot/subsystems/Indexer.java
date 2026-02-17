@@ -19,9 +19,9 @@ public class Indexer extends SubsystemBase {
   
   private TalonFX front;
   private Shooter shooter;
-  private  Slot0Configs pid;
+  private Slot0Configs pid;
   private VelocityVoltage index;
-  private double targetSpeed=35;//0-106
+  private double targetSpeed=53;//0-106
   public Indexer(Shooter shooter) {
     this.shooter = shooter;
     front = new TalonFX(39);
@@ -41,13 +41,12 @@ public class Indexer extends SubsystemBase {
     index = new VelocityVoltage(0);
   }
   public void runIndexer(){
-    
-    
-    front.setControl(index.withVelocity(-targetSpeed));}
+        
+    front.setControl(index.withVelocity(-targetSpeed));
+  }
     
   public void stop(){
-   
-    front.setControl(index.withVelocity(0));
+       front.setControl(index.withVelocity(0));
   }
   
   @Override
