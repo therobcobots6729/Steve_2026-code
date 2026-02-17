@@ -24,7 +24,7 @@ public class Angle extends SubsystemBase{
         double t = velocity.flightTime();
         double tx = limelight.getTX();
     if(t == 0){
-        return -tx;}
+        return tx;}
     else{
     double d = limelight.distanceMeters();
 
@@ -36,7 +36,7 @@ public class Angle extends SubsystemBase{
     double theta = Math.toDegrees(Math.atan(lead / d));
     
 
-    return -( tx+theta);}
+    return ( tx+theta);}
   }
  
 
