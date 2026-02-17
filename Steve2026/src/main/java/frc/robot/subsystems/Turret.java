@@ -24,7 +24,7 @@ public class Turret extends SubsystemBase {
   private Angle angle;
   private double arouund = 1;
   
-  private  PIDController controller = new PIDController(0.025, 0, 0);//tune this a little more to stop the shakes
+  private  PIDController controller = new PIDController(0.0125, 0, 0);//tune this a little more to stop the shakes
   
   /** Creates a new Turret. */
   public Turret( Angle angle) {
