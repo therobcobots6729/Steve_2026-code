@@ -86,13 +86,14 @@ private void updatelook(){
         arouund = arouund - 2;
         
     }
-}
+    }
   
 
 
   @Override
   public void periodic() {
-    updatelook();
+    if (getAngle() >= 90 || getAngle() <= -90){
+    updatelook();}
     SmartDashboard.putNumber("Turret Angle", getAngle());
     SmartDashboard.putNumber("Tmotor", encoder.getPosition());
     // This method will be called once per scheduler run
