@@ -66,7 +66,24 @@ public class Turret extends SubsystemBase {
 
     turnMotor.set(output);
 }
+public void looking(){
+  double turretAngle = getAngle();
+  double error = 1;
+  double commandedError = error;
+  if (turretAngle >= 170 && commandedError > 0) {
+        // blocked going positive → go full turn negative
+        commandedError = error - 340;
+    }
+    else if (turretAngle <= -170 && commandedError < 0) {
+        // blocked going negative → go full turn positive
+        commandedError = error + 340;
+        
+    }
+    double output = controller.calculate(0-commandedError);
+    output = MathUtil.clamp(output, -1.0, 1.0);
 
+    turnMotor.set(output);
+}
   
 
 

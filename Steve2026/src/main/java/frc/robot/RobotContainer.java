@@ -15,6 +15,7 @@ import frc.robot.commands.RunIntake;
 import frc.robot.commands.Shooty;
 import frc.robot.commands.TeleopSwerve;
 import frc.robot.commands.AutoTurret;
+import frc.robot.commands.Look;
 import frc.robot.commands.ManTurret;
 import frc.robot.commands.RunIndexer;
 import frc.robot.commands.runShooter;
@@ -103,6 +104,7 @@ public class RobotContainer {
     intakeForward.whileTrue(new ParallelCommandGroup(new RunIntake(i_Intake), new RunIndexer(indexer)));
     manTurret.whileTrue(new ManTurret(turret));
     shoot.whileTrue(new Shooty(shooter));
+    intakeReverse.onTrue(new Look(turret, Limelight));
     
 
     
