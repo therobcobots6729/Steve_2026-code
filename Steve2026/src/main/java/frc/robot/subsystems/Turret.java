@@ -22,7 +22,7 @@ public class Turret extends SubsystemBase {
   private static RelativeEncoder encoder;
   
   private Angle angle;
-  
+  private double arouund = 1;
   
   private  PIDController controller = new PIDController(0.025, 0, 0);//tune this a little more to stop the shakes
   
@@ -67,28 +67,32 @@ public class Turret extends SubsystemBase {
     turnMotor.set(output);
 }
 public void looking(){
-  double turretAngle = getAngle();
-  double error = 1;
-  double commandedError = error;
-  if (turretAngle >= 90) {
-        // blocked going positive → go full turn negative
-        commandedError = error + 2;
-    }
-    else if (turretAngle <= -90) {
-        // blocked going negative → go full turn positive
-        commandedError = error - 2;
-        
-    }
-    double output = controller.calculate(0-commandedError);
+ 
+    double output = controller.calculate(0-arouund);
     output = MathUtil.clamp(output, -1.0, 1.0);
 
     turnMotor.set(output);
+}
+private void updatelook(){
+  double turretAngle = getAngle();
+  
+  
+  if (turretAngle >= 90) {
+        // blocked going positive → go full turn negative
+        arouund = arouund + 2;
+    }
+    else if (turretAngle <= -90) {
+        // blocked going negative → go full turn positive
+        arouund = arouund - 2;
+        
+    }
 }
   
 
 
   @Override
   public void periodic() {
+    updatelook();
     SmartDashboard.putNumber("Turret Angle", getAngle());
     SmartDashboard.putNumber("Tmotor", encoder.getPosition());
     // This method will be called once per scheduler run
