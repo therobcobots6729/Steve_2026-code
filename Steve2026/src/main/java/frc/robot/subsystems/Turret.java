@@ -60,7 +60,7 @@ public class Turret extends SubsystemBase {
         commandedError = error + 340;
     }
 
-    double output = controller.calculate(commandedError, 0);
+    double output = controller.calculate(0-commandedError);
     output = MathUtil.clamp(output, -1.0, 1.0);
 
     turnMotor.set(output);
