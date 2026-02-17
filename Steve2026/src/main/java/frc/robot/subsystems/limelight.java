@@ -69,7 +69,7 @@ public void updateTargetHeading()
 
   private double distance(){
     double angletoGoalDegrees = limelightMountAngleDegrees + targetOffsetAngle_Vertical;
-     double angletoGoalRadians= angletoGoalDegrees * (3.14159/180);
+     double angletoGoalRadians= angletoGoalDegrees * (Math.PI/180);
      double distanceFromLimelighttoGoalInches = (GoalHeightInches-limelimelightLensHeightInches)/Math.tan(angletoGoalRadians);
      double d = distanceFromLimelighttoGoalInches;
      return d;
