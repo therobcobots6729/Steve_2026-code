@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 /** Add your docs here. */
@@ -41,5 +42,6 @@ public class Angle extends SubsystemBase{
 
 @Override
 public void periodic() {
+    SmartDashboard.putNumber("theta", turret_Target());
     // This method will be called once per scheduler run
 }}
