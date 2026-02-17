@@ -65,6 +65,12 @@ public double outputSpeed(){
     double targetRPM = effectiveDistance(); // future function
     return targetRPM / 60.0; // RPS
 }
+public boolean inRange(){
+    if (outputSpeed()<= 105){
+        return true;
+    }
+    else {return false;}
+}
 @Override
 public void periodic() {
     SmartDashboard.putNumber("target Shooter velocity", outputSpeed()*60);

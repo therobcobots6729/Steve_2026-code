@@ -19,15 +19,16 @@ public class Turret extends SubsystemBase {
   private  SparkMax turnMotor;
  
 
-  private  RelativeEncoder encoder;
+  private static RelativeEncoder encoder;
   
   private Angle angle;
+  
   
   private  PIDController controller = new PIDController(0.025, 0, 0);//tune this a little more to stop the shakes
   
   /** Creates a new Turret. */
   public Turret( Angle angle) {
- 
+    
     this.angle = angle;
     turnMotor  = new SparkMax(17, MotorType.kBrushless);
     controller.enableContinuousInput(-180, 180);
@@ -35,11 +36,11 @@ public class Turret extends SubsystemBase {
     encoder = turnMotor.getEncoder();
       
   }
-
-  public double getAngle(){
+   public static double getAngle(){
      double targetAngle = 360*encoder.getPosition()/90;
      return MathUtil.inputModulus(-targetAngle, -180, 180);
   }
+  
 
  public void runTurrent(){
 

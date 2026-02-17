@@ -4,20 +4,25 @@
 
 package frc.robot.subsystems;
 
-import java.util.function.BooleanSupplier;
 
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.revrobotics.spark.SparkLowLevel.MotorType;
+import com.revrobotics.spark.SparkMax;
+
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class TestIntake extends SubsystemBase {
-  public static TalonSRX intakeMotor;
-  public BooleanSupplier a;
-  public BooleanSupplier b;
+  public  SparkMax intakeMotor;
+  
   /** Creates a new TestIntake. */
   public TestIntake() {
-    intakeMotor = new TalonSRX(30);
+    intakeMotor = new SparkMax(25, MotorType.kBrushless);
   }
-
+  public void runIntake() {
+    intakeMotor.set(.5);;
+  }
+  public void stopIntake() {
+    intakeMotor.set(0);
+  }
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
