@@ -22,9 +22,9 @@ public class Angle extends SubsystemBase{
 
     public double turret_Target(){                                                                                /// angle that the limelight should be pointing relative to actual target
         double t = velocity.flightTime();
-
+        double tx = limelight.getTX();
     if(t == 0){
-        return 0;}
+        return -tx;}
     else{
     double d = limelight.distanceMeters();
 
@@ -34,7 +34,7 @@ public class Angle extends SubsystemBase{
     double lead = vSide * t;
 
     double theta = Math.toDegrees(Math.atan(lead / d));
-    double tx = limelight.getTX();
+    
 
     return -( tx+theta);}
   }
