@@ -70,11 +70,11 @@ public void looking(){
   double turretAngle = getAngle();
   double error = 1;
   double commandedError = error;
-  if (turretAngle >= 90 && commandedError > 0) {
+  if (turretAngle >= 90) {
         // blocked going positive → go full turn negative
         commandedError = error - 2;
     }
-    else if (turretAngle <= -90 && commandedError < 0) {
+    else if (turretAngle <= -90) {
         // blocked going negative → go full turn positive
         commandedError = error + 2;
         
