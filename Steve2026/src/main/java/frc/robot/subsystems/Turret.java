@@ -72,11 +72,11 @@ public void looking(){
   double commandedError = error;
   if (turretAngle >= 170 && commandedError > 0) {
         // blocked going positive → go full turn negative
-        commandedError = error - 340;
+        commandedError = error - 2;
     }
     else if (turretAngle <= -170 && commandedError < 0) {
         // blocked going negative → go full turn positive
-        commandedError = error + 340;
+        commandedError = error + 1;
         
     }
     double output = controller.calculate(0-commandedError);
