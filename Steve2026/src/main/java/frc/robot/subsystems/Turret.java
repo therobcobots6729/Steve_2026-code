@@ -70,7 +70,7 @@ public class Turret extends SubsystemBase {
     turnMotor.set(output);}
     else {
       double output = controller.calculate(0+getAngle());
-      turnMotor.set(output);
+      turnMotor.set(-output);
     }
 }
 public void looking(){
