@@ -63,7 +63,7 @@ public double effectiveDistance() {
 public double outputSpeed(){
     // corrected ballistic calculation
     double targetRPM = (.0712*(Math.pow(effectiveDistance(),2)))-3.475*effectiveDistance()+88.690;; // future function
-    return targetRPM ; // RPS
+    return targetRPM /100; // RPS
 }
 public boolean inRange(){
     if (outputSpeed()<= 105){
@@ -73,7 +73,7 @@ public boolean inRange(){
 }
 @Override
 public void periodic() {
-    SmartDashboard.putNumber("target Shooter velocity", outputSpeed()*60);
+    SmartDashboard.putNumber("target Shooter velocity", outputSpeed()/100);
     cachedMuzzleVelocity = velocity(); // horizontal velocity cache
 }
 }
