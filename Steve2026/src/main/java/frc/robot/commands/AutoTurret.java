@@ -5,18 +5,22 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.Angle;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Turret;
+
 
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class AutoTurret extends Command {
   /** Creates a new limelightTurrent. */
   private Turret turret;
+  private Angle angle;
   private Limelight limelight;
-  public AutoTurret(Turret turret, Limelight limelight) {
+  public AutoTurret(Turret turret, Limelight limelight, Angle angle) {
     this.turret = turret;
     this.limelight = limelight;
+    this.angle = angle;
     addRequirements(turret, limelight);
     // Use addRequirements() here to declare subsystem dependencies.
   }
@@ -28,10 +32,25 @@ public class AutoTurret extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (limelight.hasTarget()){
-    turret.runTurrent();}
-    else if (!limelight.hasTarget()){
-      turret.stop();
+    if (Turret.getAngle()<90 && Turret.getAngle()>-90){
+      if (limelight.hasTarget()){
+        turret.runTurrent();}
+      else if (!limelight.hasTarget()){
+         turret.stop();
+    }}
+    else if (Turret.getAngle()>90 ){
+        if (limelight.hasTarget() && angle.turret_Target()<0){
+        turret.runTurrent();}
+        else if (limelight.hasTarget() && angle.turret_Target()>0){
+          turret.stop();
+        }
+    }
+    else if ( Turret.getAngle()<-90){
+      if (limelight.hasTarget() && angle.turret_Target()>0){
+        turret.runTurrent();}
+        else if (limelight.hasTarget() && angle.turret_Target()<0){
+          turret.stop();
+        }
     }
   }
    
