@@ -46,7 +46,7 @@ public class Turret extends SubsystemBase {
   }
 
  public void runTurrent(){
-      if (limelight.hasTarget()){
+     
     double error = angle.turret_Target();  // tx + lead
 
     double turretAngle = getAngle(); // [-180, 180]
@@ -67,11 +67,8 @@ public class Turret extends SubsystemBase {
     double output = controller.calculate(0-commandedError);
     output = MathUtil.clamp(output, -1.0, 1.0);
 
-    turnMotor.set(output);}
-    else {
-      double output = controller.calculate(0-getAngle());
-      turnMotor.set(-output);
-    }
+    turnMotor.set(output);
+   
 }
 public void looking(){
  
