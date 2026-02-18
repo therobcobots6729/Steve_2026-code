@@ -26,10 +26,10 @@ public class Angle extends SubsystemBase{
     if(t == 0){
         return tx;}
     else{
-    double d = limelight.distanceMeters();
+    double d = limelight.distance();
 
     // sideways robot motion
-    double vSide = swerve.turretVelocity().getY();
+    double vSide = swerve.turretVelocity().getY()*39.37; //in/s
 
     double lead = vSide * t;
 

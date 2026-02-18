@@ -33,7 +33,7 @@ private double velocity() {
     double releaseAngleRadians = Math.toRadians(releaseAngle);
 
     // wheel linear speed → projectile speed
-    double wheelRadius = 0.0508; // meters
+    double wheelRadius = 2; // inches
     double wheelLinearSpeed = inputSpeed() * 2 * Math.PI * wheelRadius; // m/s
 
     // horizontal projectile velocity
@@ -41,7 +41,7 @@ private double velocity() {
 }
 
 public double flightTime() {
-    double d = limelight.distanceMeters();
+    double d = limelight.distance();
 
     if (cachedMuzzleVelocity < 0.1) {
         return 0.0;
@@ -53,7 +53,7 @@ public double flightTime() {
 
 public double effectiveDistance() {  
     double d = limelight.distance();
-    double vx = swerve.turretVelocity().getX(); // robot forward velocity (m/s)
+    double vx = swerve.turretVelocity().getX()*39.37; // robot forward velocity (in/s)
     double t = flightTime();
 
     // motion compensation
@@ -63,7 +63,7 @@ public double effectiveDistance() {
 public double outputSpeed(){
     // corrected ballistic calculation
     double targetRPM = (.0712*(Math.pow(effectiveDistance(),2)))-3.475*effectiveDistance()+88.690;; // future function
-    return targetRPM /100; // RPS
+    return targetRPM ; // RPS
 }
 public boolean inRange(){
     if (outputSpeed()<= 105){
