@@ -73,7 +73,7 @@ public boolean inRange(){
 }
 @Override
 public void periodic() {
-    SmartDashboard.putNumber("target Shooter velocity", outputSpeed()/100);
+    SmartDashboard.putNumber("target Shooter velocity", outputSpeed());
     cachedMuzzleVelocity = velocity(); // horizontal velocity cache
 }
 }
