@@ -41,7 +41,9 @@ public class Turret extends SubsystemBase {
      double targetAngle = 360*encoder.getPosition()/90;
      return MathUtil.inputModulus(-targetAngle, -180, 180);
   }
-  
+  public void stop(){
+    turnMotor.set(0);
+  }
 
  public void runTurrent(){
       if (limelight.hasTarget()){

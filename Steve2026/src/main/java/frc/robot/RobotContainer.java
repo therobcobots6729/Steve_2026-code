@@ -84,7 +84,7 @@ public class RobotContainer {
             () -> robotCentric.getAsBoolean()));
     
     turret.setDefaultCommand( //this runs command automatically
-      new AutoTurret(turret));
+      new AutoTurret(turret, Limelight));
     configureBindings();
   }
 

@@ -5,6 +5,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Turret;
 
 
@@ -12,8 +13,8 @@ import frc.robot.subsystems.Turret;
 public class AutoTurret extends Command {
   /** Creates a new limelightTurrent. */
   private Turret turret;
-
-  public AutoTurret(Turret turret) {
+  private Limelight limelight;
+  public AutoTurret(Turret turret, Limelight limelight) {
     this.turret = turret;
     addRequirements(turret);
     // Use addRequirements() here to declare subsystem dependencies.
@@ -32,11 +33,13 @@ public class AutoTurret extends Command {
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    turret.stop();
+  }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return !limelight.hasTarget();
   }
 }
