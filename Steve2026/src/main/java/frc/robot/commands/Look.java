@@ -28,8 +28,8 @@ public class Look extends Command {
   @Override
   public void execute() {
    if (Turret.getAngle() <100 && Turret.getAngle()>-100 ){ turret.looking();}
-   else if(Turret.getAngle() >100  && turret.arouund>0){turret.stop();}
-   else if ( Turret.getAngle()<-100 && turret.arouund<0){turret.stop();}
+   else if(Turret.getAngle() >100  && turret.arouund<0){turret.stop();}
+   else if ( Turret.getAngle()<-100 && turret.arouund>0){turret.stop();}
    else{turret.looking();}
   }
   
