@@ -28,7 +28,11 @@ public class AutoTurret extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    turret.runTurrent();
+    if (limelight.hasTarget()){
+    turret.runTurrent();}
+    else if (!limelight.hasTarget()){
+      turret.stop();
+    }
   }
    
 
