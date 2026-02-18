@@ -50,7 +50,7 @@ public class Turret extends SubsystemBase {
     turnMotor.set(0);
   }
   private boolean isConnected(){
-    return absAngle.getStopped();
+    return !absAngle.getStopped();
   }
   private double TrueAngle(){
     return (absAngle.get())-0;//0 is an offset
