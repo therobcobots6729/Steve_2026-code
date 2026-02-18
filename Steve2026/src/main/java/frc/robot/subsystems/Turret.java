@@ -12,7 +12,8 @@ import com.revrobotics.spark.SparkMax;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.wpilibj.DutyCycleEncoder;
+
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -25,7 +26,7 @@ public class Turret extends SubsystemBase {
   private Angle angle;
   public double arouund = 2;
   //private Limelight limelight;
-  private DutyCycleEncoder absAngle;
+  private Encoder absAngle;
   
   private  PIDController controller = new PIDController(0.02, 0, 0);//tune this a little more to stop the shakes
   
@@ -37,7 +38,8 @@ public class Turret extends SubsystemBase {
     controller.enableContinuousInput(-180, 180);
     controller.setTolerance(1.0);
     encoder = turnMotor.getEncoder();
-    absAngle = new DutyCycleEncoder(0);
+    absAngle = new Encoder(0,1,false,Encoder.EncodingType.k2X);
+    absAngle.setDistancePerPulse(360/2048/10);
       
   }
    public static double getAngle(){
@@ -48,10 +50,10 @@ public class Turret extends SubsystemBase {
     turnMotor.set(0);
   }
   private boolean isConnected(){
-    return absAngle.isConnected();
+    return absAngle.getStopped();
   }
   private double TrueAngle(){
-    return (absAngle.get()*360/10)-0;//0 is an offset
+    return (absAngle.get())-0;//0 is an offset
   }
 
  public void runTurrent(){
