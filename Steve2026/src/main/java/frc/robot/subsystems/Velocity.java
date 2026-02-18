@@ -24,7 +24,7 @@ public class Velocity extends SubsystemBase {
 
    public double inputSpeed() {  
     // placeholder ballistic model (distance → RPM)
-    double targetRPM = (.0712*(Math.pow(limelight.distance(),2)))-3.475*limelight.distance()+88.690; // future function
+    double targetRPM = (.0712*(Math.pow(limelight.distance(),2)))-3.475*limelight.distance()+95; // future function
     return targetRPM ; // RPS
 }
 
