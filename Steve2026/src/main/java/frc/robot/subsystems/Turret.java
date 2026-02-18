@@ -12,6 +12,7 @@ import com.revrobotics.spark.SparkMax;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -24,6 +25,7 @@ public class Turret extends SubsystemBase {
   private Angle angle;
   public double arouund = 2;
   private Limelight limelight;
+  private DutyCycleEncoder absAngle;
   
   private  PIDController controller = new PIDController(0.02, 0, 0);//tune this a little more to stop the shakes
   
@@ -35,6 +37,7 @@ public class Turret extends SubsystemBase {
     controller.enableContinuousInput(-180, 180);
     controller.setTolerance(1.0);
     encoder = turnMotor.getEncoder();
+    absAngle = new DutyCycleEncoder(0);
       
   }
    public static double getAngle(){
@@ -43,6 +46,12 @@ public class Turret extends SubsystemBase {
   }
   public void stop(){
     turnMotor.set(0);
+  }
+  private boolean isConnected(){
+    return absAngle.isConnected();
+  }
+  private double TrueAngle(){
+    return (absAngle.get()*360/10)-281;//281 is an offset
   }
 
  public void runTurrent(){
@@ -98,6 +107,9 @@ private void updatelook(){
   public void periodic() {
     if (getAngle() >= 90 || getAngle() <= -90){
     updatelook();}
+    if (isConnected()){
+      encoder.setPosition(TrueAngle());
+    }
     SmartDashboard.putNumber("Turret Angle", getAngle());
     SmartDashboard.putNumber("Tmotor", encoder.getPosition());
     // This method will be called once per scheduler run
