@@ -105,6 +105,7 @@ public class RobotContainer {
     manTurret.whileTrue(new ManTurret(turret));
     shoot.whileTrue(new Shooty(shooter));
     intakeReverse.onTrue(new Look(turret, Limelight));
+    rightTrigger.whileTrue(new runShooter(shooter));
     
 
     
