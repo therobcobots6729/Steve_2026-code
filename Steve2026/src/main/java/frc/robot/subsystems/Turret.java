@@ -22,7 +22,7 @@ public class Turret extends SubsystemBase {
   private static RelativeEncoder encoder;
   
   private Angle angle;
-  public double arouund = 1;
+  public double arouund = 2;
   private Limelight limelight;
   
   private  PIDController controller = new PIDController(0.02, 0, 0);//tune this a little more to stop the shakes
@@ -83,11 +83,11 @@ private void updatelook(){
   
   if (turretAngle >= 90) {
         // blocked going positive → go full turn negative
-        arouund = arouund + 2;
+        arouund = 2;
     }
     else if (turretAngle <= -90) {
         // blocked going negative → go full turn positive
-        arouund = arouund - 2;
+        arouund = - 2;
         
     }
     }
