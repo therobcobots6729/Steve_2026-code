@@ -55,14 +55,14 @@ public class Turret extends SubsystemBase {
     double commandedError = error;
 
     // limit logic with forced wrap
-    if (turretAngle >= 90 && commandedError > 0) {
+    /*if (turretAngle >= 90 && commandedError > 0) {
         // blocked going positive → go full turn negative
         commandedError = error - 340;
     }
     else if (turretAngle <= -90 && commandedError < 0) {
         // blocked going negative → go full turn positive
         commandedError = error + 340;
-    }
+    }*/
 
     double output = controller.calculate(0-commandedError);
     output = MathUtil.clamp(output, -1.0, 1.0);
