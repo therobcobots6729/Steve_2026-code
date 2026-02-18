@@ -24,7 +24,7 @@ public class Velocity extends SubsystemBase {
 
    public double inputSpeed() {  
     // placeholder ballistic model (distance → RPM)
-    double targetRPM = limelight.distanceMeters(); // future function
+    double targetRPM = (.0712*(Math.pow(limelight.distanceMeters(),2)))-3.475*limelight.distanceMeters()+88.690; // future function
     return targetRPM / 60.0; // RPS
 }
 
@@ -62,7 +62,7 @@ public double effectiveDistance() {
 
 public double outputSpeed(){
     // corrected ballistic calculation
-    double targetRPM = effectiveDistance(); // future function
+    double targetRPM = (.0712*(Math.pow(effectiveDistance(),2)))-3.475*effectiveDistance()+88.690;; // future function
     return targetRPM / 60.0; // RPS
 }
 public boolean inRange(){
