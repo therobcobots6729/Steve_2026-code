@@ -16,6 +16,7 @@ public class AutoTurret extends Command {
   private Limelight limelight;
   public AutoTurret(Turret turret, Limelight limelight) {
     this.turret = turret;
+    this.limelight = limelight;
     addRequirements(turret);
     // Use addRequirements() here to declare subsystem dependencies.
   }
