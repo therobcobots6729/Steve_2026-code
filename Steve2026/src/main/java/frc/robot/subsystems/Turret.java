@@ -51,7 +51,7 @@ public class Turret extends SubsystemBase {
     return absAngle.isConnected();
   }
   private double TrueAngle(){
-    return (absAngle.get()*360/10)-281;//281 is an offset
+    return (absAngle.get()*360/10)-0;//0 is an offset
   }
 
  public void runTurrent(){
@@ -112,6 +112,7 @@ private void updatelook(){
     }
     SmartDashboard.putNumber("Turret Angle", getAngle());
     SmartDashboard.putNumber("Tmotor", encoder.getPosition());
+    SmartDashboard.putNumber("Encoder Offset", TrueAngle());
     // This method will be called once per scheduler run
   }
 }
