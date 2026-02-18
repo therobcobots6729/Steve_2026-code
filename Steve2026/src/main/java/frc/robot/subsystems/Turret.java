@@ -23,7 +23,7 @@ public class Turret extends SubsystemBase {
   
   private Angle angle;
   private double arouund = 1;
-  Limelight limelight;
+  private Limelight limelight;
   
   private  PIDController controller = new PIDController(0.02, 0, 0);//tune this a little more to stop the shakes
   
