@@ -45,7 +45,7 @@ public class RobotContainer {
   private final Swerve s_Swerve = new Swerve(Limelight);
   private final Velocity velocity = new Velocity(Limelight, s_Swerve);
   private final Angle angle = new Angle(velocity, s_Swerve, Limelight);
-  private final Turret turret = new Turret(angle);
+  private final Turret turret = new Turret(angle, Limelight);
   
   private final Shooter shooter = new Shooter(velocity);  
   private final Indexer indexer = new Indexer(shooter);

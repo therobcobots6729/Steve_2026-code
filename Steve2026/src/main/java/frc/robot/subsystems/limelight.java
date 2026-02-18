@@ -25,7 +25,7 @@ public class Limelight extends SubsystemBase {
   private NetworkTableEntry tx1;
   private NetworkTableEntry ty;
   private NetworkTableEntry tid1;
-  private NetworkTableEntry tv;
+  private  NetworkTableEntry tv;
   private double lastValidDistance = 0;
   private double lastSeenTime = 0;
   public double targetHeadingDeg = 0;
@@ -52,7 +52,7 @@ public class Limelight extends SubsystemBase {
      
   }
   
-  public boolean hasTarget(){
+  public  boolean hasTarget(){
     return tv.getDouble(0.0) > 0.5;
 }
     private double wrapAngle(double angle){
