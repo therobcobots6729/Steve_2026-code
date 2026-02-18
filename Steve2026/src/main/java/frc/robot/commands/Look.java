@@ -27,12 +27,18 @@ public class Look extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    turret.looking();
+   if (Turret.getAngle() <100 && Turret.getAngle()>-100 ){ turret.looking();}
+   else if(Turret.getAngle() >100  && turret.arouund>0){turret.stop();}
+   else if ( Turret.getAngle()<-100 && turret.arouund<0){turret.stop();}
+   else{turret.looking();}
   }
+  
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    turret.stop();
+  }
 
   // Returns true when the command should end.
   @Override
