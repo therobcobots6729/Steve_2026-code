@@ -4,6 +4,8 @@
 
 package frc.robot.commands;
 
+import java.util.function.BooleanSupplier;
+
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Angle;
 import frc.robot.subsystems.Limelight;
@@ -17,10 +19,12 @@ public class AutoTurret extends Command {
   private Turret turret;
   private Angle angle;
   private Limelight limelight;
-  public AutoTurret(Turret turret, Limelight limelight, Angle angle) {
+  private BooleanSupplier a;
+  public AutoTurret(Turret turret, Limelight limelight, Angle angle, BooleanSupplier a) {
     this.turret = turret;
     this.limelight = limelight;
     this.angle = angle;
+    this.a = a;
     addRequirements(turret, limelight);
     // Use addRequirements() here to declare subsystem dependencies.
   }
@@ -32,29 +36,9 @@ public class AutoTurret extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (Turret.getAngle()<90 && Turret.getAngle()>-90){
-      if (limelight.hasTarget()){
-        turret.runTurrent();}
-      else if (!limelight.hasTarget()){
-         turret.stop();
-    }}
-    else if (Turret.getAngle()>90 ){
-        if (limelight.hasTarget() && angle.turret_Target()<0){
-        turret.runTurrent();}
-        else if (limelight.hasTarget() && angle.turret_Target()>0){
-          turret.stop();
-        }
-    }
-    else if ( Turret.getAngle()<-90){
-      if (limelight.hasTarget() && angle.turret_Target()>0){
-        turret.runTurrent();}
-        else if (limelight.hasTarget() && angle.turret_Target()<0){
-          turret.stop();
-        }
-    }
-  }
+    turret.runTurrent();
    
-
+  }
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
@@ -64,6 +48,6 @@ public class AutoTurret extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return !limelight.hasTarget();
+    return !a.getAsBoolean();
   }
 }
