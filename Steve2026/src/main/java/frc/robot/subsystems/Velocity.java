@@ -24,7 +24,7 @@ public class Velocity extends SubsystemBase {
 
    public double inputSpeed() {  
     // placeholder ballistic model (distance → RPM)
-    double targetRPM = (.0712*(Math.pow(limelight.distanceMeters(),2)))-3.475*limelight.distanceMeters()+88.690; // future function
+    double targetRPM = (.0712*(Math.pow(limelight.distance(),2)))-3.475*limelight.distance()+88.690; // future function
     return targetRPM ; // RPS
 }
 
@@ -52,7 +52,7 @@ public double flightTime() {
 }
 
 public double effectiveDistance() {  
-    double d = limelight.distanceMeters();
+    double d = limelight.distance();
     double vx = swerve.turretVelocity().getX(); // robot forward velocity (m/s)
     double t = flightTime();
 

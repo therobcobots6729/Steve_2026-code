@@ -79,7 +79,7 @@ public class Shooter extends SubsystemBase {
 
 }
 public void runShooty(){
-    shooty.setControl(shoot.withVelocity(velocity.outputSpeed())); // 45.5-47at 23.0   52went in w/o touching sides-55 at 34  46 at 29.4 went in w/o touching sides
+    shooty.setControl(shoot.withVelocity(velocity.inputSpeed())); // 45.5-47at 23.0   52went in w/o touching sides-55 at 34  46 at 29.4 went in w/o touching sides
   }                                                         //  46-48 at 26.3   49-52at 31.9
 
 

@@ -51,7 +51,13 @@ public class Limelight extends SubsystemBase {
      tv = table1.getEntry("tv");
      
   }
-  
+  public double distance(){
+    double angletoGoalDegrees = limelightMountAngleDegrees + targetOffsetAngle_Vertical;
+     double angletoGoalRadians= angletoGoalDegrees * (Math.PI/180);
+     double distanceFromLimelighttoGoalInches = (GoalHeightInches-limelimelightLensHeightInches)/Math.tan(angletoGoalRadians);
+     double d = distanceFromLimelighttoGoalInches;
+     return d;
+  }
   public  boolean hasTarget(){
     return tv.getDouble(0.0) > 0.5;
 }
@@ -67,13 +73,7 @@ public void updateTargetHeading()
     }
 }
 
-  private double distance(){
-    double angletoGoalDegrees = limelightMountAngleDegrees + targetOffsetAngle_Vertical;
-     double angletoGoalRadians= angletoGoalDegrees * (Math.PI/180);
-     double distanceFromLimelighttoGoalInches = (GoalHeightInches-limelimelightLensHeightInches)/Math.tan(angletoGoalRadians);
-     double d = distanceFromLimelighttoGoalInches;
-     return d;
-  }
+  
   public double distanceMeters(){
 
     return distance() * 0.0254;   // inches → meters
