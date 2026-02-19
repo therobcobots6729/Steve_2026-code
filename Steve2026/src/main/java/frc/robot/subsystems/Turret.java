@@ -112,7 +112,7 @@ private void updatelook(){
     if (getAngle() >= 90 || getAngle() <= -90){
     updatelook();}
     if (isConnected()){
-      encoder.setPosition(TrueAngle()*9/360);
+      encoder.setPosition(TrueAngle()*9/36);
     }
     SmartDashboard.putNumber("Turret Angle", getAngle());
     SmartDashboard.putNumber("Tmotor", encoder.getPosition());
