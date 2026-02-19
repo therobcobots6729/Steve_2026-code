@@ -7,8 +7,7 @@ package frc.robot.commands;
 import java.util.function.BooleanSupplier;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.Angle;
-import frc.robot.subsystems.Limelight;
+
 import frc.robot.subsystems.Turret;
 
 
@@ -17,15 +16,13 @@ import frc.robot.subsystems.Turret;
 public class AutoTurret extends Command {
   /** Creates a new limelightTurrent. */
   private Turret turret;
-  private Angle angle;
-  private Limelight limelight;
+ 
   private BooleanSupplier a;
-  public AutoTurret(Turret turret, Limelight limelight, Angle angle, BooleanSupplier a) {
+  public AutoTurret(Turret turret, BooleanSupplier a) {
     this.turret = turret;
-    this.limelight = limelight;
-    this.angle = angle;
+    
     this.a = a;
-    addRequirements(turret, limelight);
+    addRequirements(turret);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 

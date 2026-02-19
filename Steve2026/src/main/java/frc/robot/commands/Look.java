@@ -4,19 +4,23 @@
 
 package frc.robot.commands;
 
+import java.util.function.BooleanSupplier;
+
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.Limelight;
+
 import frc.robot.subsystems.Turret;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class Look extends Command {
   private Turret turret;
-  private Limelight limelight;
+  
+  private BooleanSupplier a;
   /** Creates a new Look. */
-  public Look(Turret turret, Limelight limelight) {
+  public Look(Turret turret , BooleanSupplier a) {
     addRequirements(turret);
     this.turret = turret;
-    this.limelight = limelight;
+    this.a = a;
+   
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -43,6 +47,6 @@ public class Look extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return limelight.hasTarget();
+    return a.getAsBoolean();
   }
 }

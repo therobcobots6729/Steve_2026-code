@@ -84,7 +84,7 @@ public class RobotContainer {
             () -> robotCentric.getAsBoolean()));
     
     turret.setDefaultCommand( //this runs command automatically
-      new AutoTurret(turret, Limelight, angle, ()-> Limelight.hasTarget())
+      new AutoTurret(turret, ()-> Limelight.hasTarget())
       );
     configureBindings();
   }
@@ -105,8 +105,9 @@ public class RobotContainer {
     intakeForward.whileTrue(new ParallelCommandGroup(new RunIntake(i_Intake), new RunIndexer(indexer)));
     manTurret.whileTrue(new ManTurret(turret));
     shoot.whileTrue(new Shooty(shooter));
-    intakeReverse.onTrue(new Look(turret, Limelight));
+    intakeReverse.onTrue(new Look(turret, () -> Limelight.hasTarget()));
     rightTrigger.whileTrue(new runShooter(shooter));
+    
     
 
     
