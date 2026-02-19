@@ -55,7 +55,7 @@ public class Turret extends SubsystemBase {
     return !absAngle.getStopped();
   }
   private double TrueAngle(){
-    return (absAngle.getDistance())-0;//0 is an offset
+    return absAngle.getDistance();//0 is an offset
   }
 
  public void runTurrent(){
