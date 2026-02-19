@@ -39,7 +39,7 @@ public class Turret extends SubsystemBase {
     controller.setTolerance(1.0);
     encoder = turnMotor.getEncoder();
     absAngle = new Encoder(0,1,false,Encoder.EncodingType.k2X);
-    absAngle.setDistancePerPulse(36/2048);
+    absAngle.setDistancePerPulse(.01578);
       
   }
    public double getAngle(){
