@@ -28,7 +28,7 @@ public class Limelight extends SubsystemBase {
   private  NetworkTableEntry tv;
   private double lastValidDistance = 0;
   private double lastSeenTime = 0;
-  public double targetHeadingDeg = 0;
+  
   private static final double TARGET_MEMORY_TIME = 0.6; // seconds
 
  
@@ -61,17 +61,8 @@ public class Limelight extends SubsystemBase {
   public  boolean hasTarget(){
     return tv.getDouble(0.0) > 0.5;
 }
-    private double wrapAngle(double angle){
-    while(angle > 180) angle -= 360;
-    while(angle < -180) angle += 360;
-    return angle;
-  }
-public void updateTargetHeading()
-{double turretAngle = Turret.getAngle();
-    if (hasTarget()) {
-        targetHeadingDeg = wrapAngle(turretAngle + Limelight.tx);
-    }
-}
+   
+
 
   
   public double distanceMeters(){
@@ -104,7 +95,7 @@ public void updateTargetHeading()
   public void periodic() {
       
       targetOffsetAngle_Vertical = ty.getDouble(0.0);
-    updateTargetHeading();
+    
       if(hasTarget()){
         lastValidDistance = distanceMeters();
         lastSeenTime = Timer.getFPGATimestamp();
