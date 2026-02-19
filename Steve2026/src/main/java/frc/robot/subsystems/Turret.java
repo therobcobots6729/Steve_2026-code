@@ -111,9 +111,9 @@ private void updatelook(){
   public void periodic() {
     if (getAngle() >= 90 || getAngle() <= -90){
     updatelook();}
-    if (isConnected()){
+    /*if (isConnected()){
       encoder.setPosition(TrueAngle()*9/360);
-    }
+    }*/
     SmartDashboard.putNumber("Turret Angle", getAngle());
     SmartDashboard.putNumber("Tmotor", encoder.getPosition());
     SmartDashboard.putNumber("Encoder Offset", TrueAngle());
