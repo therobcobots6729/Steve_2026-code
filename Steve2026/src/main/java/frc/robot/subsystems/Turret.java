@@ -91,14 +91,23 @@ public void looking(){
     turnMotor.set(output);
 }
 private void updatelook(){
+  double trueAngle = TrueAngle();
   double turretAngle = getAngle();
+  double Angle;
+
+  if (isConnected()){
+    Angle = trueAngle;
+  }
+  else{
+    Angle = turretAngle;
+  }
   
   
-  if (turretAngle >= 90) {
+  if (Angle >= 90) {
         // blocked going positive → go full turn negative
         arouund =2;
     }
-    else if (turretAngle <= -90) {
+    else if (Angle <= -90) {
         // blocked going negative → go full turn positive
         arouund =  -2;
         
@@ -111,9 +120,7 @@ private void updatelook(){
   public void periodic() {
     if (getAngle() >= 90 || getAngle() <= -90){
     updatelook();}
-    if (isConnected()){
-      encoder.setPosition(TrueAngle()*9/36);
-    }
+    
     SmartDashboard.putNumber("Turret Angle", getAngle());
     SmartDashboard.putNumber("Tmotor", encoder.getPosition());
     SmartDashboard.putNumber("Encoder Offset", TrueAngle());
