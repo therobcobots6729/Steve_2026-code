@@ -66,12 +66,12 @@ public class Limelight extends SubsystemBase {
     while(angle < -180) angle += 360;
     return angle;
   }
-/*public void updateTargetHeading()
-{
+public void updateTargetHeading()
+{double turretAngle = Turret.getAngle();
     if (hasTarget()) {
-        targetHeadingDeg = wrapAngle(Turret.getAngle() + Limelight.tx);
+        targetHeadingDeg = wrapAngle(turretAngle + Limelight.tx);
     }
-}*/
+}
 
   
   public double distanceMeters(){
@@ -104,7 +104,7 @@ public class Limelight extends SubsystemBase {
   public void periodic() {
       
       targetOffsetAngle_Vertical = ty.getDouble(0.0);
-    //updateTargetHeading();
+    updateTargetHeading();
       if(hasTarget()){
         lastValidDistance = distanceMeters();
         lastSeenTime = Timer.getFPGATimestamp();
