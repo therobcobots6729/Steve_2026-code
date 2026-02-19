@@ -43,7 +43,7 @@ public class Turret extends SubsystemBase {
       
   }
    public double getAngle(){
-     double targetAngle = 360*encoder.getPosition()/90;
+     double targetAngle = 360*encoder.getPosition()/90; // turret clockwise is positive         motor is moving negative
      return targetAngle;
   }
  
@@ -55,7 +55,7 @@ public class Turret extends SubsystemBase {
     return !absAngle.getStopped();
   }
   private double TrueAngle(){
-    return absAngle.getDistance();//0 is an offset
+    return absAngle.getDistance(); // turret clockwise is positive         motor negative
   }
 
  public void runTurrent(){
@@ -85,7 +85,7 @@ public class Turret extends SubsystemBase {
 }
 public void looking(){
  
-    double output = controller.calculate(0-arouund);
+    double output = controller.calculate(arouund);
     output = MathUtil.clamp(output, -1.0, 1.0);
 
     turnMotor.set(output);
@@ -96,11 +96,11 @@ private void updatelook(){
   
   if (turretAngle >= 90) {
         // blocked going positive → go full turn negative
-        arouund = -2;
+        arouund =-2;
     }
     else if (turretAngle <= -90) {
         // blocked going negative → go full turn positive
-        arouund = + 2;
+        arouund =  2;
         
     }
     }
