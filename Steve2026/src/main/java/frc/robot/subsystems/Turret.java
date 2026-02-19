@@ -96,11 +96,11 @@ private void updatelook(){
   
   if (turretAngle >= 90) {
         // blocked going positive → go full turn negative
-        arouund =-2;
+        arouund =2;
     }
     else if (turretAngle <= -90) {
         // blocked going negative → go full turn positive
-        arouund =  2;
+        arouund =  -2;
         
     }
     }
