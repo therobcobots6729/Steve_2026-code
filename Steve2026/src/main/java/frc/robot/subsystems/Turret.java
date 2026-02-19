@@ -44,7 +44,7 @@ public class Turret extends SubsystemBase {
   }
    public static double getAngle(){
      double targetAngle = 360*encoder.getPosition()/90;
-     return MathUtil.inputModulus(-targetAngle, -180, 180);
+     return targetAngle;
   }
   public void stop(){
     turnMotor.set(0);
