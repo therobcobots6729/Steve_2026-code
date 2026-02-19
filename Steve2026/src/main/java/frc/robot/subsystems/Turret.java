@@ -42,7 +42,7 @@ public class Turret extends SubsystemBase {
     absAngle.setDistancePerPulse(360/2048/10);
       
   }
-   private double getAngle(){
+   public double getAngle(){
      double targetAngle = 360*encoder.getPosition()/90;
      return targetAngle;
   }

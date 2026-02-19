@@ -31,9 +31,9 @@ public class Look extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-   if (Turret.getAngle() <100 && Turret.getAngle()>-100 ){ turret.looking();}
-   else if(Turret.getAngle() >100  && turret.arouund<0){turret.stop();}
-   else if ( Turret.getAngle()<-100 && turret.arouund>0){turret.stop();}
+   if (turret.getAngle() <100 && turret.getAngle()>-100 ){ turret.looking();}
+   else if(turret.getAngle() >100  && turret.arouund<0){turret.stop();}
+   else if ( turret.getAngle()<-100 && turret.arouund>0){turret.stop();}
    else{turret.looking();}
   }
   
