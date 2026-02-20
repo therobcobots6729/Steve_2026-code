@@ -124,6 +124,7 @@ private void updatelook(){
     SmartDashboard.putNumber("Turret Angle", getAngle());
     SmartDashboard.putNumber("Tmotor", encoder.getPosition());
     SmartDashboard.putNumber("Encoder Offset", TrueAngle());
+    SmartDashboard.putBoolean("connected", isConnected());
     // This method will be called once per scheduler run
   }
 }
