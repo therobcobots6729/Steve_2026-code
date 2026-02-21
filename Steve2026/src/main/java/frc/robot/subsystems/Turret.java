@@ -57,6 +57,11 @@ public class Turret extends SubsystemBase {
   private double TrueAngle(){
     return absAngle.getDistance(); // turret clockwise is positive         motor negative
   }
+  public void Zero(){
+    double output = controller.calculate(0-getAngle());
+    output = MathUtil.clamp(output, -1.0, 1.0);
+    turnMotor.set(output);
+  }
 
  public void runTurrent(){
      
