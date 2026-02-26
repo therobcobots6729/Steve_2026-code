@@ -25,6 +25,7 @@ import frc.robot.subsystems.TestIntake;
 import frc.robot.subsystems.Turret;
 import frc.robot.subsystems.Velocity;
 import frc.robot.subsystems.Angle;
+import frc.robot.subsystems.Funnel;
 import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Limelight;
 
@@ -40,9 +41,9 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   
   private final TestIntake i_Intake = new TestIntake();
-  
+  private final Funnel funnel = new Funnel();
   private final Limelight Limelight = new Limelight(); 
-  private final Swerve s_Swerve = new Swerve(Limelight);
+  private final Swerve s_Swerve = new Swerve();
   private final Velocity velocity = new Velocity(Limelight, s_Swerve);
   private final Angle angle = new Angle(velocity, s_Swerve, Limelight);
   private final Turret turret = new Turret(angle);
@@ -102,7 +103,7 @@ public class RobotContainer {
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
     zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroHeading()));
     
-    intakeForward.whileTrue(new ParallelCommandGroup(new RunIntake(i_Intake), new RunIndexer(indexer)));
+    intakeForward.whileTrue(new ParallelCommandGroup(new RunIntake(i_Intake), new RunIndexer(indexer, funnel)));
     manTurret.whileTrue(new ManTurret(turret));
     shoot.whileTrue(new Shooty(shooter));
     intakeReverse.onTrue(new Look(turret, () -> Limelight.hasTarget()));

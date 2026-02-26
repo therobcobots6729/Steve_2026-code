@@ -25,9 +25,9 @@ public class Swerve extends SubsystemBase {
   public Pigeon2 gyro;
   public RobotConfig Rconfig;
 
-  private Limelight limelight;
-  public Swerve(Limelight limelight) {
-    this.limelight = limelight;
+  
+  public Swerve() {
+    
   
     
     

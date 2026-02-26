@@ -95,6 +95,15 @@ public void looking(){
 
     turnMotor.set(output);
 }
+public boolean Connected(){
+  if (encoder.getVelocity() != 0 && absAngle.getStopped()){
+    return false;
+  }
+  else {
+    return true;
+  }
+
+}
 private void updatelook(){
   double trueAngle = TrueAngle();
   double turretAngle = getAngle();
@@ -130,6 +139,7 @@ private void updatelook(){
     SmartDashboard.putNumber("Tmotor", encoder.getPosition());
     SmartDashboard.putNumber("Encoder Offset", TrueAngle());
     SmartDashboard.putBoolean("connected", isConnected());
+    SmartDashboard.putBoolean("test", Connected());
     // This method will be called once per scheduler run
   }
 }
