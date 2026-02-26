@@ -14,8 +14,8 @@ public class Funnel extends SubsystemBase {
   private TalonSRX right;
   private TalonSRX left;
   public Funnel() {
-    right = new TalonSRX(21);
-    left = new TalonSRX(20);
+    right = new TalonSRX(40);
+    left = new TalonSRX(39);
 
   }
   public void Spin(){
