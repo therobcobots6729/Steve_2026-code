@@ -12,7 +12,6 @@ import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.math.filter.LinearFilter;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -23,12 +22,7 @@ public class Shooter extends SubsystemBase {
   private  Slot0Configs pid;
   private Velocity velocity;
   private boolean hadTargetLastLoop = false;
-  private double matchtime;
-  private boolean Fhoot = (matchtime>=80 && matchtime<105)|| (matchtime>=30 && matchtime<55); //you win auto
-  private boolean almost = (matchtime>=130 && matchtime<135) || (matchtime>=80 && matchtime<85)||(matchtime>=30 && matchtime < 35) ||(matchtime>=55 && matchtime<60) || (matchtime>=105 && matchtime<110);
-  private boolean Active = (matchtime>=130) ||(matchtime<30);
 
-  private boolean fire = Active || Fhoot;
   
   private LinearFilter distanceFilter = LinearFilter.movingAverage(5);
 
@@ -92,21 +86,14 @@ public void runShooty(){
   public void stop() {
   shooty.stopMotor();
   }
-  public void won(){
-    Fhoot = (matchtime>=105 && matchtime<130) || (matchtime>=55 && matchtime<80);
-  }
- 
+
   @Override
   public void periodic() {
-   matchtime = Timer.getMatchTime();
-    
-    
-    
+   
     
     SmartDashboard.putBoolean("Fire?", atSpeed());
     SmartDashboard.putNumber("Actual Shooter velocity", shooty.getVelocity().getValueAsDouble());
     SmartDashboard.putNumber("Filtered Distance", distanceFilter.calculate(velocity.outputSpeed()));
-    SmartDashboard.putBoolean("Active", fire);
     
     // This method will be called once per scheduler run
   }
