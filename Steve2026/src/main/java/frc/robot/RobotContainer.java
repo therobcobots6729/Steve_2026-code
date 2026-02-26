@@ -70,7 +70,8 @@ public class RobotContainer {
   private final JoystickButton intakeReverse = new JoystickButton(driver, XboxController.Button.kLeftBumper.value);
     private final JoystickButton manTurret = new JoystickButton(driver, XboxController.Button.kY.value);  
     private final JoystickButton shoot = new JoystickButton(driver, XboxController.Button.kX.value);  
-  
+      private final JoystickButton won = new JoystickButton(driver, XboxController.Button.kLeftStick.value);  
+
 
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -108,7 +109,7 @@ public class RobotContainer {
     shoot.whileTrue(new Shooty(shooter));
     intakeReverse.onTrue(new Look(turret, () -> Limelight.hasTarget()));
     rightTrigger.whileTrue(new runShooter(shooter));
-    
+    won.onTrue(new InstantCommand(()-> shooter.won()));
     
 
     
