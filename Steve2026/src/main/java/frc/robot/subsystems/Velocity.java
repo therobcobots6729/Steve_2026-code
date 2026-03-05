@@ -12,6 +12,9 @@ public class Velocity extends SubsystemBase {
     
     private Limelight limelight;
     private Swerve swerve;
+    private double x=40;
+    private double y = .0195588;
+    private double z = .0005359;
     
     
     private double cachedMuzzleVelocity = 0.0; // m/s
@@ -25,9 +28,10 @@ public class Velocity extends SubsystemBase {
 
    public double inputSpeed() {  
     // placeholder ballistic model (distance → RPM)
-    double targetRPM = (.0712*(Math.pow(limelight.distance(),2)))-3.475*limelight.distance()+92; // future function
+    double targetRPM = (z*(Math.pow(limelight.distance(),2)))+y*limelight.distance()+x; // future function
     return targetRPM ; // RPS
 }
+
 
 private double velocity() {
     double releaseAngle = 70;
@@ -43,13 +47,11 @@ private double velocity() {
 
 public double flightTime() {
     double d = limelight.distance();
-
-    if (cachedMuzzleVelocity < 0.1) {
-        return 0.0;
-    }
+        return 0;
+   
 
     // using horizontal component for time-of-flight
-    return d / cachedMuzzleVelocity;
+    //return d / cachedMuzzleVelocity;
 }
 
 public double effectiveDistance() {  
@@ -63,7 +65,7 @@ public double effectiveDistance() {
 
 public double outputSpeed(){
     // corrected ballistic calculation
-    double targetRPM = (.0712*(Math.pow(effectiveDistance(),2)))-3.475*effectiveDistance()+88.690;; // future function
+    double targetRPM = (z*(Math.pow(effectiveDistance(),2)))+y*effectiveDistance()+x;; // future function
     return targetRPM ; // RPS
 }
 public boolean inRange(){

@@ -37,7 +37,7 @@ public class AutoTurret extends Command {
     turret.runTurrent();
   }
   else{
-    turret.Zero();
+    turret.stop();
   }
   }
   // Called once the command ends or is interrupted.

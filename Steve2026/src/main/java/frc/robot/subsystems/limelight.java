@@ -41,7 +41,7 @@ public class Limelight extends SubsystemBase {
 
   public Limelight() {
     
-     limelightMountAngleDegrees = 45;
+     limelightMountAngleDegrees = 20;
      limelimelightLensHeightInches = 26.26;
      GoalHeightInches = 56.44;
      table1 = NetworkTableInstance.getDefault().getTable("limelight");

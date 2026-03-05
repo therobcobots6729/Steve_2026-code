@@ -162,10 +162,11 @@ public void driveRobotRelative(ChassisSpeeds desiredChassisSpeeds, boolean isOpe
   public Translation2d turretVelocity(){
  
     ChassisSpeeds T = getCurrentSpeeds();
-
+    
     double vx = T.vxMetersPerSecond;
     double vy = T.vyMetersPerSecond;
-    Translation2d h = new Translation2d(vx,vy);
+    Rotation2d y= new Rotation2d(Turret.getAngle());
+    Translation2d h = new Translation2d(vx,vy).rotateBy(y);
 
    
     

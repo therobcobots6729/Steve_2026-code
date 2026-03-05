@@ -20,8 +20,8 @@ public class Indexer extends SubsystemBase {
   private TalonFX front;
   //private Shooter shooter;
   private Slot0Configs pid;
-  private VelocityVoltage index;
-  private double targetSpeed=53;//0-106
+  private VelocityVoltage index;  
+  private double targetSpeed=15;//0-106
   public Indexer() {
    // this.shooter = shooter;
     front = new TalonFX(39);

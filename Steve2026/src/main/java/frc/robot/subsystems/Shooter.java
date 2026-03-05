@@ -12,6 +12,7 @@ import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.math.filter.LinearFilter;
+import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -29,6 +30,8 @@ public class Shooter extends SubsystemBase {
 
 
   public Shooter(Velocity velocity) {
+    Mechanism2d mechanism = new Mechanism2d(3, 3);
+    SmartDashboard.putData("Shooter", mechanism);
     this.velocity = velocity;
     
     shooty = new TalonFX(32);
@@ -79,9 +82,8 @@ public class Shooter extends SubsystemBase {
 
 }
 public void runShooty(){
-    shooty.setControl(shoot.withVelocity(velocity.outputSpeed())); // 45.5-47at 23.0   52went in w/o touching sides-55 at 34  46 at 29.4 went in w/o touching sides
-  }                                                         //  46-48 at 26.3   49-52at 31.9
-
+    shooty.setControl(shoot.withVelocity(velocity.outputSpeed()));  
+}
 
   public void stop() {
   shooty.stopMotor();
@@ -93,7 +95,7 @@ public void runShooty(){
     
     SmartDashboard.putBoolean("Fire?", atSpeed());
     SmartDashboard.putNumber("Actual Shooter velocity", shooty.getVelocity().getValueAsDouble());
-    SmartDashboard.putNumber("Filtered Distance", distanceFilter.calculate(velocity.outputSpeed()));
+    SmartDashboard.putNumber("Filtered Distance", distanceFilter.calculate(velocity.inputSpeed()));
     
     // This method will be called once per scheduler run
   }

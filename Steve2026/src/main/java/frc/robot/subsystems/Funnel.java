@@ -13,14 +13,15 @@ public class Funnel extends SubsystemBase {
   /** Creates a new Funnel. */
   private TalonSRX right;
   private TalonSRX left;
+  private double speed = .5;
   public Funnel() {
-    right = new TalonSRX(40);
-    left = new TalonSRX(39);
+    right = new TalonSRX(21);
+    left = new TalonSRX(20);
 
   }
   public void Spin(){
-    left.set(ControlMode.PercentOutput, -.5);
-    right.set(ControlMode.PercentOutput, .50);
+    left.set(ControlMode.PercentOutput, -speed);
+    right.set(ControlMode.PercentOutput, speed);
   }
   public void Stop(){
     left.set(ControlMode.PercentOutput, 0);

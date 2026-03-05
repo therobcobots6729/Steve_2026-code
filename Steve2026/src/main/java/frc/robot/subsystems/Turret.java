@@ -28,7 +28,7 @@ public class Turret extends SubsystemBase {
   //private Limelight limelight;
   private Encoder absAngle;
   
-  private  PIDController controller = new PIDController(0.02, 0, 0);//tune this a little more to stop the shakes
+  private  PIDController controller = new PIDController(0.0225, 0, 0.0);//tune this a little more to stop the shakes
   
   /** Creates a new Turret. */
   public Turret( Angle angle) {
@@ -42,7 +42,7 @@ public class Turret extends SubsystemBase {
     absAngle.setDistancePerPulse(.017578125);
       
   }
-   public double getAngle(){
+   public static double getAngle(){
      double targetAngle = 360*encoder.getPosition()/90; // turret clockwise is positive         motor is moving negative
      return targetAngle;
   }
