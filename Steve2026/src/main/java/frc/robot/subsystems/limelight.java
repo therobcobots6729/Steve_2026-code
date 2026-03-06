@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 
 
+import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
@@ -28,7 +29,7 @@ public class Limelight extends SubsystemBase {
   private  NetworkTableEntry tv;
   private double lastValidDistance = 0;
   private double lastSeenTime = 0;
-  
+   double poiZ,poiX,poiY,yaw,distance;
   private static final double TARGET_MEMORY_TIME = 0.6; // seconds
 
  
@@ -49,26 +50,21 @@ public class Limelight extends SubsystemBase {
      ty = table1.getEntry("ty");
      tid1 = table1.getEntry("tid");
      tv = table1.getEntry("tv");
+    
      
   }
-  public double distance(){
-    double angletoGoalDegrees = limelightMountAngleDegrees + targetOffsetAngle_Vertical;
-     double angletoGoalRadians= angletoGoalDegrees * (Math.PI/180);
-     double distanceFromLimelighttoGoalInches = (GoalHeightInches-limelimelightLensHeightInches)/Math.tan(angletoGoalRadians);
-     double d = distanceFromLimelighttoGoalInches;
-     return d;
-  }
+  
   public  boolean hasTarget(){
     return tv.getDouble(0.0) > 0.5;
 }
    
 
-
-  
-  public double distanceMeters(){
-
-    return distance() * 0.0254;   // inches → meters
+public double Yaw(){
+  return yaw;
 }
+  
+ 
+
   public double getTX(){
     tx = tx1.getDouble(0.0);
     return tx;
@@ -78,7 +74,11 @@ public class Limelight extends SubsystemBase {
                 // either use nplot to set the distance and the required speed+-room for error/2 and use the best fit line
                 // or send me the values and i will send you back the correct function
                 // do not use voltage numbers only velocity numbers
+public double distance() {
+   
 
+    double distanceMeters = Math.sqrt(poiX*poiX + poiZ*poiZ);
+    return distanceMeters * 39.3701;}
   public double getHeldDistanceMeters(){
 
     double timeSinceSeen = Timer.getFPGATimestamp() - lastSeenTime;
@@ -91,16 +91,30 @@ public class Limelight extends SubsystemBase {
     // target gone too long → stop trusting
     return 0;}
 }
+public void updateVision() {
+    Pose3d pose = LimelightHelpers.getTargetPose3d_CameraSpace("limelight");
+
+    double x = pose.getX();
+    double y = pose.getY();
+    double z = pose.getZ();
+
+    poiX = x + 0.0698;
+    poiY = y - 0.3048;
+    poiZ = z - 0.5842;
+
+    yaw = Math.atan2(poiX, poiZ);
+    distance = Math.sqrt(poiX*poiX + poiZ*poiZ);
+}
   @Override
   public void periodic() {
       
       targetOffsetAngle_Vertical = ty.getDouble(0.0);
     
       if(hasTarget()){
-        lastValidDistance = distanceMeters();
+       
         lastSeenTime = Timer.getFPGATimestamp();
     }
-      
+      updateVision();
       
 
      

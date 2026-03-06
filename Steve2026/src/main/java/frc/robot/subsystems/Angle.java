@@ -22,7 +22,7 @@ public class Angle extends SubsystemBase{
 
     public double turret_Target(){                                                                                /// angle that the limelight should be pointing relative to actual target
         double t = velocity.flightTime();
-        double tx = limelight.getTX();
+        double tx = limelight.Yaw();
     if(t == 0){
         return tx;}
     else{
