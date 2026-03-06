@@ -102,7 +102,7 @@ public void updateVision() {
     poiY = y - 0.3048;
     poiZ = z - 0.5842;
 
-    yaw = Math.atan2(poiX, poiY);
+    yaw =Math.toDegrees(Math.atan2(poiX, poiZ));
     distance = Math.sqrt(poiX*poiX + poiZ*poiZ);
 }
   @Override
