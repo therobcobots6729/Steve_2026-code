@@ -13,8 +13,8 @@ public class Velocity extends SubsystemBase {
     private Limelight limelight;
     private Swerve swerve;
     private double x=40;
-    private double y = .0195588;
-    private double z = .0005359;
+    private double y = .0445588;
+    private double z = .0005859;
     
     
     private double cachedMuzzleVelocity = 0.0; // m/s
