@@ -127,7 +127,7 @@ public void updateVision() {
     SmartDashboard.putNumber("tx1", poiX);
     SmartDashboard.putNumber("ty1", poiZ);
     SmartDashboard.putNumber("tid1", tid1.getDouble(0.0));
-    
+    SmartDashboard.putNumber("yaw", yaw);
     SmartDashboard.putNumber("distance", distance());
     SmartDashboard.putBoolean("target", hasTarget());
     
