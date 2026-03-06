@@ -18,9 +18,9 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Shooter extends SubsystemBase {
   /** Creates a new Shooter. */
-  private  TalonFX shooty;
-  private  VelocityVoltage shoot;
-  private  Slot0Configs pid;
+  private TalonFX shooty;
+  private VelocityVoltage shoot;
+  private Slot0Configs pid;
   private Velocity velocity;
   private boolean hadTargetLastLoop = false;
 
