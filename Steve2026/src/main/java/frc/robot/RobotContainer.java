@@ -50,6 +50,7 @@ public class RobotContainer {
   
   private final Shooter shooter = new Shooter(velocity);  
   private final Indexer indexer = new Indexer();
+  private final LimelightHelpers ll = new LimelightHelpers();
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final XboxController driver =
