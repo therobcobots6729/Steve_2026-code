@@ -17,7 +17,7 @@ public class Flipper extends SubsystemBase {
   /** Creates a new Flipper. */
   private TalonFX flippy;
   private DutyCycleEncoder intakeAngle;
-  private double offset = 0; // in degrees
+  private double offset = 0; // in degrees with 0 being level to the ground, make moviing up positive
   private double angle = 0; //dont touch for testing purposes only
   private double up,raised,down,half;
   public Flipper() {
@@ -25,7 +25,7 @@ public class Flipper extends SubsystemBase {
     TalonFXConfiguration config = new TalonFXConfiguration();
     
     config.MotorOutput.NeutralMode = NeutralModeValue.Coast;
-    config.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
+    config.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;//change if motor backwards
     config.CurrentLimits.SupplyCurrentLimit = 40;
     config.CurrentLimits.SupplyCurrentLimitEnable = true;
     flippy.getConfigurator().apply(config);
@@ -43,30 +43,30 @@ public class Flipper extends SubsystemBase {
     return Angle;
   }
   private double output(double target){
-    double base = .3*Math.cos(Math.toRadians(actualAngle()));
-    double push = .1*(actualAngle()-target);
+    double base = .3*Math.cos(Math.toRadians(actualAngle()));////scalar for static hold
+    double push = .01*(actualAngle()-target); // scalar for moving tune after static hold
     return push + base;
   }
   public void halt(){
       flippy.set(output(angle));
   }
   public void agitate(){
-    if (actualAngle()<=50){
+    if (actualAngle()<=half){
         flippy.set(output(raised));
     }
-    else {
+    else if (actualAngle()>=raised){
       flippy.set(output(half));
     }
   }
   public void raise(){
-    if (actualAngle()<90){
+    if (actualAngle()<=up){
     flippy.set(output(up));}
     else{
       stop();
     }
   }
   public void lower(){
-    if (actualAngle()>=10){
+    if (actualAngle()>=down+10){
     flippy.set(output(down));}
     else {
       stop();
