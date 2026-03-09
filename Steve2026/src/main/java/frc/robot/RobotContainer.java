@@ -25,6 +25,7 @@ import frc.robot.subsystems.TestIntake;
 import frc.robot.subsystems.Turret;
 import frc.robot.subsystems.Velocity;
 import frc.robot.subsystems.Angle;
+import frc.robot.subsystems.Flipper;
 import frc.robot.subsystems.Funnel;
 import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Limelight;
@@ -48,7 +49,7 @@ public class RobotContainer {
   private final Velocity velocity = new Velocity(Limelight, s_Swerve);
   private final Angle angle = new Angle(velocity, s_Swerve, Limelight);
   private final Turret turret = new Turret(angle);
-  
+  private final Flipper flip = new Flipper();
   private final Shooter shooter = new Shooter(velocity);  
   private final Indexer indexer = new Indexer();
   private final LimelightHelpers ll = new LimelightHelpers();
