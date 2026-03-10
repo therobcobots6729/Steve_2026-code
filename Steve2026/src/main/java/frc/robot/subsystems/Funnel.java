@@ -15,8 +15,8 @@ public class Funnel extends SubsystemBase {
   private TalonSRX left;
   private double speed = .5;
   public Funnel() {
-    right = new TalonSRX(21);
-    left = new TalonSRX(20);
+    right = new TalonSRX(20);
+    left = new TalonSRX(21);
 
   }
   public void Spin(){

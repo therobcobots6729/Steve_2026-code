@@ -16,9 +16,10 @@ public class TestIntake extends SubsystemBase {
   /** Creates a new TestIntake. */
   public TestIntake() {
     intakeMotor = new SparkMax(25, MotorType.kBrushless);
+
   }
   public void runIntake() {
-    intakeMotor.set(.5);;
+    intakeMotor.set(-.60);;
   }
   public void stopIntake() {
     intakeMotor.set(0);

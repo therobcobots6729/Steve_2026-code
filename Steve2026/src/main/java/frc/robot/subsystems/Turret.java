@@ -28,7 +28,7 @@ public class Turret extends SubsystemBase {
   //private Limelight limelight;
   private Encoder absAngle;
   
-  private  PIDController controller = new PIDController(0.0225, 0, 0.0);//tune this a little more to stop the shakes
+  private  PIDController controller = new PIDController(0.01125, 0, 0.0);//tune this a little more to stop the shakes
   
   /** Creates a new Turret. */
   public Turret( Angle angle) {
