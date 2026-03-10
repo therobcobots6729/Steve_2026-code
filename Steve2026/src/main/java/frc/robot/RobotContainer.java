@@ -72,7 +72,10 @@ public class RobotContainer {
   private final JoystickButton intakeForward = new JoystickButton(driver, XboxController.Button.kRightBumper.value);
   private final JoystickButton intakeReverse = new JoystickButton(driver, XboxController.Button.kLeftBumper.value);
     private final JoystickButton manTurret = new JoystickButton(driver, XboxController.Button.kY.value);  
-    private final JoystickButton shoot = new JoystickButton(driver, XboxController.Button.kX.value);  
+    private final JoystickButton shoot = new JoystickButton(driver, XboxController.Button.kX.value); 
+    private final JoystickButton agitate = new JoystickButton(driver, XboxController.Button.kBack.value);
+    private final JoystickButton raise = new JoystickButton(driver, XboxController.Button.kA.value);
+    private final JoystickButton lower = new JoystickButton(driver, XboxController.Button.kB.value);
   
 
 
@@ -111,6 +114,9 @@ public class RobotContainer {
     shoot.whileTrue(new Shooty(shooter));
     intakeReverse.onTrue(new Look(turret, () -> Limelight.hasTarget()));
     rightTrigger.whileTrue(new runShooter(shooter));
+    lower.onTrue(new InstantCommand(()-> flip.lower()));
+    raise.onTrue(new InstantCommand(() -> flip.raise()));
+    agitate.onTrue(new InstantCommand(()-> flip.agitate()));
     
     
 
