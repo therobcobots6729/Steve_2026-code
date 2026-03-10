@@ -25,6 +25,7 @@ import frc.robot.subsystems.TestIntake;
 import frc.robot.subsystems.Turret;
 import frc.robot.subsystems.Velocity;
 import frc.robot.subsystems.Angle;
+import frc.robot.subsystems.Flipper;
 import frc.robot.subsystems.Funnel;
 import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Limelight;
@@ -48,7 +49,7 @@ public class RobotContainer {
   private final Velocity velocity = new Velocity(Limelight, s_Swerve);
   private final Angle angle = new Angle(velocity, s_Swerve, Limelight);
   private final Turret turret = new Turret(angle);
-  
+  private final Flipper flip = new Flipper();
   private final Shooter shooter = new Shooter(velocity);  
   private final Indexer indexer = new Indexer();
   private final LimelightHelpers ll = new LimelightHelpers();
@@ -71,7 +72,10 @@ public class RobotContainer {
   private final JoystickButton intakeForward = new JoystickButton(driver, XboxController.Button.kRightBumper.value);
   private final JoystickButton intakeReverse = new JoystickButton(driver, XboxController.Button.kLeftBumper.value);
     private final JoystickButton manTurret = new JoystickButton(driver, XboxController.Button.kY.value);  
-    private final JoystickButton shoot = new JoystickButton(driver, XboxController.Button.kX.value);  
+    private final JoystickButton shoot = new JoystickButton(driver, XboxController.Button.kX.value); 
+    private final JoystickButton agitate = new JoystickButton(driver, XboxController.Button.kBack.value);
+    private final JoystickButton raise = new JoystickButton(driver, XboxController.Button.kA.value);
+    private final JoystickButton lower = new JoystickButton(driver, XboxController.Button.kB.value);
   
 
 
@@ -110,6 +114,9 @@ public class RobotContainer {
     shoot.whileTrue(new Shooty(shooter));
     intakeReverse.onTrue(new Look(turret, () -> Limelight.hasTarget()));
     rightTrigger.whileTrue(new runShooter(shooter));
+    lower.onTrue(new InstantCommand(()-> flip.lower()));
+    raise.onTrue(new InstantCommand(() -> flip.raise()));
+    agitate.onTrue(new InstantCommand(()-> flip.agitate()));
     
     
 
