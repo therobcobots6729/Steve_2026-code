@@ -115,7 +115,7 @@ public class RobotContainer {
     intakeReverse.onTrue(new Look(turret, () -> Limelight.hasTarget()));
     rightTrigger.whileTrue(new runShooter(shooter));
     lower.onTrue(new InstantCommand(()-> flip.lower()));
-    raise.onTrue(new InstantCommand(() -> flip.halt()));
+    raise.onTrue(new InstantCommand(() -> flip.raise()));
     agitate.onTrue(new InstantCommand(()-> flip.agitate()));
     
     

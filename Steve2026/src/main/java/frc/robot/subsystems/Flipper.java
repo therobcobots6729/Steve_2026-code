@@ -46,7 +46,7 @@ public class Flipper extends SubsystemBase {
   private double output(double target){
 
     double base = 0.025*Math.cos(Math.toRadians(actualAngle()));////scalar for static hold
-    double push = .01*(actualAngle()-target); // scalar for moving tune after static hold
+    double push = .0005*(actualAngle()-target); // scalar for moving tune after static hold
     return -push + base;
   }
   public void halt(){
@@ -62,11 +62,7 @@ public class Flipper extends SubsystemBase {
     }
   }
   public void raise(){
-    if (actualAngle()<=up){
-    flippy.set(output(up));}
-    else{
-      stop();
-    }
+    flippy.set(output(up));
   }
   public void lower(){
     if (actualAngle()>=down+10){
