@@ -17,21 +17,22 @@ public class Flipper extends SubsystemBase {
   /** Creates a new Flipper. */
   private TalonFX flippy;
   private DutyCycleEncoder intakeAngle;
-  private double offset = 0; // in degrees with 0 being level to the ground, make moviing up positive
-  private double angle = 0; //dont touch for testing purposes only
+  private double offset = 268; // in degrees with 0 being level to the ground, make moviing up positive
+  private double angle = 20; //dont touch for testing purposes only
   private double up,raised,down,half;
   public Flipper() {
     flippy = new TalonFX(31);
     TalonFXConfiguration config = new TalonFXConfiguration();
     
     config.MotorOutput.NeutralMode = NeutralModeValue.Coast;
-    config.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;//change if motor backwards
+    config.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;//change if motor backwards
     config.CurrentLimits.SupplyCurrentLimit = 40;
     config.CurrentLimits.SupplyCurrentLimitEnable = true;
     flippy.getConfigurator().apply(config);
 
-    intakeAngle  = new DutyCycleEncoder(7);
-    up = 90;
+    intakeAngle  = new DutyCycleEncoder(2);
+    intakeAngle.setInverted(true);
+    up = 85;
     down  = 0;
     raised = 70;
     half = 45;
@@ -43,12 +44,14 @@ public class Flipper extends SubsystemBase {
     return Angle;
   }
   private double output(double target){
-    double base = .3*Math.cos(Math.toRadians(actualAngle()));////scalar for static hold
+
+    double base = 1*Math.cos(Math.toRadians(actualAngle()));////scalar for static hold
     double push = .01*(actualAngle()-target); // scalar for moving tune after static hold
-    return push + base;
+    return -push + base;
   }
   public void halt(){
-      flippy.set(output(angle));
+      //flippy.set(output(angle));
+      flippy.set(.10);
   }
   public void agitate(){
     if (actualAngle()<=half){
