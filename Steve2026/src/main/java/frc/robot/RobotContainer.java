@@ -17,6 +17,7 @@ import frc.robot.commands.TeleopSwerve;
 import frc.robot.commands.AutoTurret;
 import frc.robot.commands.Look;
 import frc.robot.commands.ManTurret;
+import frc.robot.commands.Retracted;
 import frc.robot.commands.RunIndexer;
 import frc.robot.commands.runShooter;
 import frc.robot.subsystems.Shooter;
@@ -115,7 +116,7 @@ public class RobotContainer {
     intakeReverse.onTrue(new Look(turret, () -> Limelight.hasTarget()));
     rightTrigger.whileTrue(new runShooter(shooter));
     lower.onTrue(new InstantCommand(()-> flip.lower()));
-    raise.onTrue(new InstantCommand(() -> flip.raise()));
+    raise.onTrue(new Retracted(flip));
     agitate.onTrue(new InstantCommand(()-> flip.agitate()));
     
     

@@ -76,6 +76,7 @@ public class Flipper extends SubsystemBase {
   }
   @Override
   public void periodic() {
+    
     SmartDashboard.putNumber("Intake Angle", actualAngle());
     // This method will be called once per scheduler run
   }
