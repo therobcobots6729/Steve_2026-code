@@ -47,7 +47,7 @@ public class Flipper extends SubsystemBase {
 
     double base = 1*Math.cos(Math.toRadians(actualAngle()));////scalar for static hold
     double push = .01*(actualAngle()-target); // scalar for moving tune after static hold
-    return -push + base;
+    return push + base;
   }
   public void halt(){
       //flippy.set(output(angle));
