@@ -17,14 +17,14 @@ public class Flipper extends SubsystemBase {
   /** Creates a new Flipper. */
   private TalonFX flippy;
   private DutyCycleEncoder intakeAngle;
-  private double offset = 268; // in degrees with 0 being level to the ground, make moviing up positive
+  private double offset = 180; // in degrees with 0 being level to the ground, make moviing up positive
   private double angle = 0; //dont touch for testing purposes only
   private double up,raised,down,half;
   public Flipper() {
     flippy = new TalonFX(31);
     TalonFXConfiguration config = new TalonFXConfiguration();
     
-    config.MotorOutput.NeutralMode = NeutralModeValue.Coast;
+    config.MotorOutput.NeutralMode = NeutralModeValue.Brake;
     config.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;//change if motor backwards
     config.CurrentLimits.SupplyCurrentLimit = 40;
     config.CurrentLimits.SupplyCurrentLimitEnable = true;
