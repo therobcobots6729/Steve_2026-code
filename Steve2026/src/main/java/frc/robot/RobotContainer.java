@@ -10,11 +10,14 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.RunIntake;
 import frc.robot.commands.Shooty;
 import frc.robot.commands.TeleopSwerve;
+import frc.robot.commands.Agitate;
 import frc.robot.commands.AutoTurret;
+import frc.robot.commands.Extended;
 import frc.robot.commands.Look;
 import frc.robot.commands.ManTurret;
 import frc.robot.commands.Retracted;
@@ -64,7 +67,6 @@ public class RobotContainer {
   private final int translationAxis = XboxController.Axis.kLeftY.value;
   private final int strafeAxis = XboxController.Axis.kLeftX.value;
   private final int rotationAxis = XboxController.Axis.kRightX.value;
-  Trigger rightTrigger = new Trigger(() -> driver.getRightTriggerAxis() > .15 );
 
 
   /* Drive Buttons */
@@ -72,11 +74,12 @@ public class RobotContainer {
   private final JoystickButton zeroGyro = new JoystickButton(driver, XboxController.Button.kStart.value);
   private final JoystickButton intakeForward = new JoystickButton(driver, XboxController.Button.kRightBumper.value);
   private final JoystickButton intakeReverse = new JoystickButton(driver, XboxController.Button.kLeftBumper.value);
-    private final JoystickButton manTurret = new JoystickButton(driver, XboxController.Button.kY.value);  
-    private final JoystickButton shoot = new JoystickButton(driver, XboxController.Button.kX.value); 
-    private final JoystickButton agitate = new JoystickButton(driver, XboxController.Button.kBack.value);
-    private final JoystickButton raise = new JoystickButton(driver, XboxController.Button.kA.value);
-    private final JoystickButton lower = new JoystickButton(driver, XboxController.Button.kB.value);
+  private final JoystickButton manTurret = new JoystickButton(driver, XboxController.Button.kY.value);  
+  private final JoystickButton shoot = new JoystickButton(driver, XboxController.Button.kX.value); 
+  private final JoystickButton raise = new JoystickButton(driver, XboxController.Button.kA.value);
+  private final JoystickButton lower = new JoystickButton(driver, XboxController.Button.kB.value);
+  private final POVButton agitate = new POVButton(driver, 0);
+  private final Trigger rightTrigger = new Trigger(() -> driver.getRightTriggerAxis() > .15 );
   
 
 
@@ -110,14 +113,14 @@ public class RobotContainer {
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
     zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroHeading()));
     
-    intakeForward.whileTrue(new ParallelCommandGroup(new RunIntake(i_Intake), new RunIndexer(indexer, funnel)));
+    intakeForward.whileTrue(new RunIntake(i_Intake));
     manTurret.whileTrue(new ManTurret(turret));
     shoot.whileTrue(new Shooty(shooter));
     intakeReverse.onTrue(new Look(turret, () -> Limelight.hasTarget()));
     rightTrigger.whileTrue(new runShooter(shooter));
-    lower.onTrue(new InstantCommand(()-> flip.lower()));
+    lower.onTrue(new Extended(flip));
     raise.onTrue(new Retracted(flip));
-    agitate.onTrue(new InstantCommand(()-> flip.agitate()));
+    agitate.onTrue(new Agitate(flip));
     
     
 

@@ -52,7 +52,7 @@ public class Shooter extends SubsystemBase {
 
     shooty.getConfigurator().apply(config);
 
-   shoot = new VelocityVoltage(0);
+    shoot = new VelocityVoltage(0);
     
   }
  
