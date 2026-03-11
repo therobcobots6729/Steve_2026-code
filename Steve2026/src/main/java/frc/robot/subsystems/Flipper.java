@@ -18,7 +18,7 @@ public class Flipper extends SubsystemBase {
   private TalonFX flippy;
   private DutyCycleEncoder intakeAngle;
   private double offset = 268; // in degrees with 0 being level to the ground, make moviing up positive
-  private double angle = 20; //dont touch for testing purposes only
+  private double angle = 0; //dont touch for testing purposes only
   private double up,raised,down,half;
   public Flipper() {
     flippy = new TalonFX(31);
@@ -45,13 +45,13 @@ public class Flipper extends SubsystemBase {
   }
   private double output(double target){
 
-    double base = 1*Math.cos(Math.toRadians(actualAngle()));////scalar for static hold
+    double base = 0.025*Math.cos(Math.toRadians(actualAngle()));////scalar for static hold
     double push = .01*(actualAngle()-target); // scalar for moving tune after static hold
-    return push + base;
+    return -push + base;
   }
   public void halt(){
-      //flippy.set(output(angle));
-      flippy.set(.10);
+      flippy.set(output(actualAngle()));
+      //flippy.set(.05);
   }
   public void agitate(){
     if (actualAngle()<=half){
