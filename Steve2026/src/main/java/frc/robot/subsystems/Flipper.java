@@ -39,7 +39,7 @@ public class Flipper extends SubsystemBase {
     
   }
 
-  private double actualAngle(){
+  public double actualAngle(){
       double Angle = intakeAngle.get()*360  - offset;
     return Angle;
   }

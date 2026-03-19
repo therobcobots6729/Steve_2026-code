@@ -27,6 +27,7 @@ import frc.robot.commands.Look;
 import frc.robot.commands.ManTurret;
 import frc.robot.commands.Retracted;
 import frc.robot.commands.RunIndexer;
+import frc.robot.commands.AutoCommands;
 import frc.robot.commands.runShooter;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Swerve;
@@ -39,6 +40,7 @@ import frc.robot.subsystems.Funnel;
 import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.LimelightHelpers;
+import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -62,12 +64,13 @@ public class RobotContainer {
   private final Shooter shooter = new Shooter(velocity);  
   private final Indexer indexer = new Indexer();
   private final LimelightHelpers ll = new LimelightHelpers();
-
+  private final AutoCommands autoCommands;
+  private final LoggedDashboardChooser<Command> autoChooser;
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final XboxController driver =
       new XboxController(0);
   private final Joystick operator = new Joystick(1);
-      private final SendableChooser<Command> autoChooser;
+      
 
   
   /* Drive Controls */
@@ -113,12 +116,15 @@ public class RobotContainer {
       new AutoTurret(turret, ()-> Limelight.hasTarget())
       );
     configureBindings();
-    autoChooser = AutoBuilder.buildAutoChooser();
+    autoCommands = new AutoCommands( flip, funnel, indexer, shooter, s_Swerve, turret, i_Intake);
 
+        // Set up auto routines
+        autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
+      autoChooser.addOption("Left", autoCommands.startMid());
     // Another option that allows you to specify the default auto by its name
     // autoChooser = AutoBuilder.buildAutoChooser("My Default Auto");
 
-    SmartDashboard.putData("Auto Chooser", autoChooser);
+    
   }
 
   /**
@@ -158,6 +164,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
-   return autoChooser.getSelected();
+   return autoChooser.get();
   }
 }

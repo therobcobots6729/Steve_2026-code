@@ -36,6 +36,8 @@ public class Extended extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    if (flipper.actualAngle()>10){
+    return false;}
+    else {return true;}
   }
 }
