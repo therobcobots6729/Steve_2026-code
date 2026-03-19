@@ -34,8 +34,8 @@ public class Flipper extends SubsystemBase {
     intakeAngle.setInverted(true);
     up = 85;
     down  = 0;
-    raised = 70;
-    half = 45;
+    raised = 55;
+    half = 20;
     
   }
 
@@ -49,16 +49,22 @@ public class Flipper extends SubsystemBase {
     double push = .004*(actualAngle()-target); // scalar for moving tune after static hold
     return -push + base;
   }
+  private double output1(double target){
+
+    double base = 0.025*Math.cos(Math.toRadians(actualAngle()));////scalar for static hold
+    double push = .002*(actualAngle()-target); // scalar for moving tune after static hold
+    return -push + base;
+  }
   public void halt(){
       flippy.set(output(actualAngle()));
       //flippy.set(.05);
   }
   public void agitate(){
     if (actualAngle()<=half){
-        flippy.set(output(raised));
+        flippy.set(output1(raised));
     }
     else if (actualAngle()>=raised){
-      flippy.set(output(half));
+      flippy.set(output1(half));
     }
   }
   public void raise(){

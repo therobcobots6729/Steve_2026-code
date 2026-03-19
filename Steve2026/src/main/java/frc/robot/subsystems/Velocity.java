@@ -12,9 +12,10 @@ public class Velocity extends SubsystemBase {
     
     private Limelight limelight;
     private Swerve swerve;
+    private double g;
     private double x=40;
-    private double y = .0445588;
-    private double z = .0005859;
+    private double y = .0495588;
+    private double z = .0006859;
     
     
     private double cachedMuzzleVelocity = 0.0; // m/s
@@ -23,12 +24,13 @@ public class Velocity extends SubsystemBase {
         this.limelight = limelight;
         this.swerve = swerve;
         
+        
     }
 
 
    public double inputSpeed() {  
     // placeholder ballistic model (distance → RPM)
-    double targetRPM = (z*(Math.pow(limelight.distance(),2)))+y*limelight.distance()+x; // future function
+    double targetRPM = (z*(Math.pow(g,2)))+y*g+x; // future function
     return targetRPM ; // RPS
 }
 
@@ -55,7 +57,7 @@ public double flightTime() {
 }
 
 public double effectiveDistance() {  
-    double d = limelight.distance();
+    double d = g;
     double vx = swerve.turretVelocity().getX()*39.37; // robot forward velocity (in/s)
     double t = flightTime();
 
@@ -76,6 +78,7 @@ public boolean inRange(){
 }
 @Override
 public void periodic() {
+    g=limelight.trueDistance();
     SmartDashboard.putNumber("target Shooter velocity", outputSpeed());
     cachedMuzzleVelocity = velocity(); // horizontal velocity cache
 }

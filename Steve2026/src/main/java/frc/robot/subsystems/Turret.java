@@ -66,7 +66,7 @@ public class Turret extends SubsystemBase {
  public void runTurrent(){
      
     double error = angle.turret_Target();  // tx + lead
-
+    double output;
    // double turretAngle = getAngle(); // [-180, 180]
 
     // normal control
@@ -81,8 +81,9 @@ public class Turret extends SubsystemBase {
         // blocked going negative → go full turn positive
         commandedError = error + 340;
     }*/
-
-    double output = controller.calculate(0-commandedError);
+    if(Limelight.validTarget()){
+     output = controller.calculate(0-commandedError);}
+    else{ output=0;}
     output = MathUtil.clamp(output, -1.0, 1.0);
 
     turnMotor.set(output);
