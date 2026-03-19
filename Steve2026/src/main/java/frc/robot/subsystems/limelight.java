@@ -27,7 +27,7 @@ public class Limelight extends SubsystemBase {
   private NetworkTableEntry ty;
   private NetworkTableEntry tid1;
   private  NetworkTableEntry tv;
-  private double[] ta;
+  private double[] ta = {0,0,0,0};
   private static double tz;
     private double lastValidDistance = 0;
     private double lastSeenTime = 0;
@@ -138,6 +138,7 @@ private void updateDistance(){
   @Override
   public void periodic() {
       ta = table1.getEntry("targetpose_cameraspace").getDoubleArray(new double[0]);
+      
       targetOffsetAngle_Vertical = ty.getDouble(0.0);
       tz = ta[4];
 
