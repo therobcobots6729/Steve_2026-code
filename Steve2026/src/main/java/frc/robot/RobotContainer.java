@@ -64,8 +64,8 @@ public class RobotContainer {
   private final Shooter shooter = new Shooter(velocity);  
   private final Indexer indexer = new Indexer();
   private final LimelightHelpers ll = new LimelightHelpers();
-  //private final AutoCommands autoCommands;
- // private final LoggedDashboardChooser<Command> autoChooser;
+  private final AutoCommands autoCommands;
+  private final LoggedDashboardChooser<Command> autoChooser;
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final XboxController driver =
       new XboxController(0);
@@ -116,11 +116,12 @@ public class RobotContainer {
       new AutoTurret(turret, ()-> Limelight.hasTarget())
       );
     configureBindings();
-   // autoCommands = new AutoCommands( flip, funnel, indexer, shooter, s_Swerve, turret, i_Intake);
+    autoCommands = new AutoCommands( flip, funnel, indexer, shooter, s_Swerve, turret, i_Intake);
 
         // Set up auto routines
-       // autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
-     // autoChooser.addOption("Left", autoCommands.startMid());
+        autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
+    autoChooser.addOption("middle", autoCommands.startMid());
+    autoChooser.addOption("none", null);
     // Another option that allows you to specify the default auto by its name
     // autoChooser = AutoBuilder.buildAutoChooser("My Default Auto");
 
