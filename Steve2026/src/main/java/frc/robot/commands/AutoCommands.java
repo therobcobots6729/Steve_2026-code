@@ -46,26 +46,49 @@ public class AutoCommands{
     
     public Command cycleDepot(Optional<PathPlannerPath> pathOne,Optional<PathPlannerPath> pathTwo,Optional<PathPlannerPath> pathThree){
         return Commands.sequence(
+            new Extended(flippy).withTimeout(.5),
             AutoBuilder.followPath(pathOne.get())
-            .alongWith((Commands.waitSeconds(1.5)).andThen(new Extended(flippy).andThen(new RunIntake(intake).withTimeout(2)))),
+            .alongWith((Commands.waitSeconds(1.5)).andThen(new RunIntake(intake).withTimeout(2))),
             AutoBuilder.followPath(pathTwo.get()),
-            Commands.parallel(new runShooter(shoot), new Agitate(flippy), new RunIntake(intake), new RunIndexer(index, funnel)).withTimeout(.5),
+            Commands.parallel(new runShooter(shoot), new Agitate(flippy), new RunIntake(intake), new RunIndexer(index, funnel)).withTimeout(5),
             new Retracted(flippy).withTimeout(.5),
             AutoBuilder.followPath(pathThree.get())
             
         );
     }
+    public Command movnshoot(Optional<PathPlannerPath> pathOne){
+         return Commands.sequence(new Extended(flippy).withTimeout(2),
+            AutoBuilder.followPath(pathOne.get()),
+            Commands.parallel(new runShooter(shoot), new Agitate(flippy), new RunIntake(intake), new RunIndexer(index, funnel)).withTimeout(5)
+            );
+    }
      public Command startMid() {
-        Optional<PathPlannerPath> startMid = PathPlannerUtils.loadPathByName("to-depot");
+        Optional<PathPlannerPath> StartMid = PathPlannerUtils.loadPathByName("to-depot");
         Optional<PathPlannerPath> overBump = PathPlannerUtils.loadPathByName("overbump");
         Optional<PathPlannerPath> shootTower = PathPlannerUtils.loadPathByName("depot-to-middle");
 
         PathPlannerAuto auto;
 
-        var cmd = startMid.isEmpty() || overBump.isEmpty() || shootTower.isEmpty()
+        var cmd = StartMid.isEmpty() || overBump.isEmpty() || shootTower.isEmpty()
                 ? Commands.none()
                 : Commands.sequence(
-                        cycleDepot(startMid, shootTower, overBump)
+                        cycleDepot(StartMid, shootTower, overBump)
+                        //                        climbTower(shootTower)
+                        );
+
+        auto = new PathPlannerAuto(cmd);
+        return auto;
+    }
+    public Command justmove() {
+        Optional<PathPlannerPath> startMid = PathPlannerUtils.loadPathByName("move");
+       
+
+        PathPlannerAuto auto;
+
+        var cmd = startMid.isEmpty() 
+                ? Commands.none()
+                : Commands.sequence(
+                        movnshoot(startMid)
                         //                        climbTower(shootTower)
                         );
 

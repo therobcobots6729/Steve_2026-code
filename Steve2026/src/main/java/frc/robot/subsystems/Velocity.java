@@ -58,11 +58,11 @@ public double flightTime() {
 
 public double effectiveDistance() {  
     double d = g;
-    double vx = swerve.turretVelocity().getX()*39.37; // robot forward velocity (in/s)
+   // double vx = swerve.turretVelocity().getX()*39.37; // robot forward velocity (in/s)
     double t = flightTime();
 
     // motion compensation
-    return d - (vx * t);
+    return d - (t);
 }
 
 public double outputSpeed(){

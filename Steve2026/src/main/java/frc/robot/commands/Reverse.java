@@ -5,16 +5,18 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Funnel;
+import frc.robot.subsystems.Indexer;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class RunIntake extends Command {
-  private Intake testIntake;
-  /** Creates a new RunIntake. */
-  public RunIntake(Intake testIntake) {
-    addRequirements(testIntake);
-    this.testIntake = testIntake;
-    
+public class Reverse extends Command {
+  /** Creates a new RunIndexer. */
+  Indexer indexer;
+  Funnel funnel;
+  public Reverse(Indexer indexer, Funnel funnel) {
+    addRequirements(indexer, funnel);
+    this.indexer = indexer;
+    this.funnel = funnel;
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -25,13 +27,16 @@ public class RunIntake extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    testIntake.runIntake();
+    indexer.runIndexer();
+    funnel.reverse();
+    
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    testIntake.stopIntake();
+    indexer.stop();
+    funnel.Stop();
   }
 
   // Returns true when the command should end.

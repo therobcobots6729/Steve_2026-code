@@ -85,7 +85,7 @@ public class Turret extends SubsystemBase {
      output = controller.calculate(0-commandedError);}
     else{ output=0;}
     output = MathUtil.clamp(output, -1.0, 1.0);
-      if (Math.abs(output + TrueAngle())>90){
+      if (output + TrueAngle()<90|| output+ TrueAngle()>-90){
     turnMotor.set(output);}
     else{turnMotor.set(0);}
    

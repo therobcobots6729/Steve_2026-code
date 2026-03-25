@@ -29,9 +29,9 @@ public class Angle extends SubsystemBase{
     double d = limelight.distance();
 
     // sideways robot motion
-    double vSide = swerve.turretVelocity().getY()*39.37; //in/s
+   // double vSide = swerve.turretVelocity().getY()*39.37; //in/s
 
-    double lead = vSide * t;
+    double lead =   t;
 
     double theta = Math.toDegrees(Math.atan(lead / d));
     

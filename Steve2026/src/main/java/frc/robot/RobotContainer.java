@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
@@ -26,6 +26,7 @@ import frc.robot.commands.Extended;
 import frc.robot.commands.Look;
 import frc.robot.commands.ManTurret;
 import frc.robot.commands.Retracted;
+import frc.robot.commands.Reverse;
 import frc.robot.commands.RunIndexer;
 import frc.robot.commands.AutoCommands;
 import frc.robot.commands.runShooter;
@@ -69,7 +70,7 @@ public class RobotContainer {
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final XboxController driver =
       new XboxController(0);
-  private final Joystick operator = new Joystick(1);
+  private final XboxController operator = new XboxController(1);
       
 
   
@@ -91,11 +92,13 @@ public class RobotContainer {
   private final POVButton agitate = new POVButton(driver, 0);
   private final Trigger indexUp = new Trigger(() -> driver.getLeftTriggerAxis() > 0.10);
   private final Trigger rightTrigger = new Trigger(() -> driver.getRightTriggerAxis() > .15 );
-  
+  private final Trigger opTrigger = new Trigger(() -> operator.getRightTriggerAxis() > .15 );
+  private final Trigger opindexUp = new Trigger(() -> operator.getLeftTriggerAxis() > 0.10);
   /* Operator Buttons */
-  private final JoystickButton shoot2 = new JoystickButton(operator, 3);
-  private final JoystickButton index = new JoystickButton(operator, 2);
-
+  private final JoystickButton back = new JoystickButton(operator,XboxController.Button.kX.value );
+private final JoystickButton up = new JoystickButton(operator, XboxController.Button.kRightBumper.value);
+  private final JoystickButton down = new JoystickButton(operator,  XboxController.Button.kLeftBumper.value);
+  private final POVButton opagitate = new POVButton(operator, 0);
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the trigger bindings
@@ -150,11 +153,12 @@ public class RobotContainer {
     lower.onTrue (new Extended(flip));
     raise.onTrue(new Retracted(flip));
     agitate.onTrue(new Agitate(flip));
-    index.whileTrue(new RunIndexer(indexer, funnel));
-    shoot2.whileTrue(new Shooty(shooter));
-    
-    
-
+    opindexUp.whileTrue(new RunIndexer(indexer, funnel));
+    opTrigger.whileTrue(new Shooty(shooter));
+    back.whileTrue(new Reverse(indexer, funnel));
+    up.onTrue (new Extended(flip));
+    down.onTrue(new Retracted(flip));
+      opagitate.onTrue(new Agitate(flip));
     
   }
 
@@ -165,6 +169,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
-   return null;// autoChooser.get();
+   return autoCommands.justmove(); //autoChooser.get();
   }
 }

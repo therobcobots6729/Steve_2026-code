@@ -25,10 +25,16 @@ public class Funnel extends SubsystemBase {
 
   }
   public void Spin(){
-    left.set(ControlMode.PercentOutput, -speed);
-    right.set(ControlMode.PercentOutput, speed);
-    mechanum.set(ControlMode.PercentOutput, speed);
+    left.set(ControlMode.PercentOutput, -.75);
+    right.set(ControlMode.PercentOutput, .75);
+    mechanum.set(ControlMode.PercentOutput, -.60);
     belt.set(ControlMode.PercentOutput, speed);
+  }
+  public void reverse(){
+    left.set(ControlMode.PercentOutput, -.75);
+    right.set(ControlMode.PercentOutput, .75);
+    mechanum.set(ControlMode.PercentOutput, .60);
+    belt.set(ControlMode.PercentOutput, -speed);
   }
   public void Stop(){
     left.set(ControlMode.PercentOutput, 0);

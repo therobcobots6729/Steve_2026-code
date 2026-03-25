@@ -197,7 +197,7 @@ public void driveRobotRelative(ChassisSpeeds desiredChassisSpeeds, boolean isOpe
     }
   }
   
-  public Translation2d turretVelocity(){
+ /* public Translation2d turretVelocity(){
  
     ChassisSpeeds T = getCurrentSpeeds();
     
@@ -215,7 +215,7 @@ public void driveRobotRelative(ChassisSpeeds desiredChassisSpeeds, boolean isOpe
 // add to chassis velocity
     
     return h;
-  } 
+  } */
 
   @Override
   public void periodic() {
@@ -230,7 +230,7 @@ public void driveRobotRelative(ChassisSpeeds desiredChassisSpeeds, boolean isOpe
           "Mod " + mod.moduleNumber + " Velocity", mod.getState().speedMetersPerSecond);
           SmartDashboard.putNumber("Yaw", gyro.getYaw().getValueAsDouble());
           SmartDashboard.putNumber("HEADING", getPose().getRotation().getDegrees());
-          SmartDashboard.putNumber("Turret heading", turretVelocity().getAngle().getDegrees());
+         // SmartDashboard.putNumber("Turret heading", turretVelocity().getAngle().getDegrees());
 
     }
   }
