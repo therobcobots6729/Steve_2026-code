@@ -26,14 +26,16 @@ public class Turret extends SubsystemBase {
   private Angle angle;
   public double arouund = 2;
   //private Limelight limelight;
+  private Swerve swerve;
   private Encoder absAngle;
   
   private  PIDController controller = new PIDController(0.01125, 0, 0.0);//tune this a little more to stop the shakes
-  
+  private  PIDController position = new PIDController(0.025, 0, 0);// tune this for feeding turret
   /** Creates a new Turret. */
-  public Turret( Angle angle) {
+  public Turret( Angle angle,Swerve swerve) {
     //this.limelight = limelight;
     this.angle = angle;
+    this.swerve = swerve;
     turnMotor  = new SparkMax(17, MotorType.kBrushless);
     controller.enableContinuousInput(-180, 180);
     controller.setTolerance(1.0);
@@ -62,7 +64,18 @@ public class Turret extends SubsystemBase {
     output = MathUtil.clamp(output, -1.0, 1.0);
     turnMotor.set(output);
   }
-
+  public void feeder(){
+   double heading =swerve.Rotation()+180;
+   double wrap = MathUtil.inputModulus(heading, -180, 180);
+      if(wrap<90 && wrap>-90){
+        double output = position.calculate(wrap-TrueAngle());
+        turnMotor.set(output);//flip if backwards
+      }
+      else{
+        double output = position.calculate(0-TrueAngle());
+        turnMotor.set(output);
+      }
+  }
  public void runTurrent(){
      
     double error = angle.turret_Target();  // tx + lead

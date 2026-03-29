@@ -59,7 +59,7 @@ public class RobotContainer {
   private final Swerve s_Swerve = new Swerve();
   private final Velocity velocity = new Velocity(Limelight, s_Swerve);
   private final Angle angle = new Angle(velocity, s_Swerve, Limelight);
-  private final Turret turret = new Turret(angle);
+  private final Turret turret = new Turret(angle,s_Swerve);
   private final Flipper flip = new Flipper();
   private final Shooter shooter = new Shooter(velocity);  
   private final Indexer indexer = new Indexer();
@@ -144,14 +144,14 @@ public class RobotContainer {
     intakeForward.whileTrue(new RunIntake(i_Intake));
     indexUp.whileTrue(new RunIndexer(indexer, funnel));
     manTurret.whileTrue(new ManTurret(turret));
-    shoot.whileTrue(new Shooty(shooter));
+    shoot.whileTrue(new Shooty(shooter,Limelight));
     intakeReverse.onTrue(new Look(turret, () -> Limelight.hasTarget()));
     rightTrigger.whileTrue(new runShooter(shooter));
     lower.onTrue (new Extended(flip));
     raise.onTrue(new Retracted(flip));
     agitate.onTrue(new Agitate(flip));
     index.whileTrue(new RunIndexer(indexer, funnel));
-    shoot2.whileTrue(new Shooty(shooter));
+    shoot2.whileTrue(new Shooty(shooter,Limelight));
     
     
 

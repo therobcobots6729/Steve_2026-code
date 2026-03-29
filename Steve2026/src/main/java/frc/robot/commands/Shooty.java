@@ -5,15 +5,18 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Shooter;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class Shooty extends Command {
   private Shooter shoot;
+  private Limelight limelight;
   /** Creates a new Shooty. */
-  public Shooty(Shooter shoot) {
+  public Shooty(Shooter shoot,Limelight limelight) {
     this.shoot = shoot;
-    addRequirements(shoot);
+    this.limelight = limelight;
+    addRequirements(shoot,limelight);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -24,7 +27,11 @@ public class Shooty extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    shoot.runShooty();
+    if(limelight.hasTarget()){
+    shoot.runShooty();}
+    else{shoot.feedSpeed();
+
+    }
 
   }
 
