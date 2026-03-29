@@ -84,6 +84,10 @@ public class Shooter extends SubsystemBase {
 public void runShooty(){
     shooty.setControl(shoot.withVelocity(velocity.outputSpeed()));  
 }
+public void feedSpeed(){
+      shooty.setControl(shoot.withVelocity(80));  
+
+}
 
   public void stop() {
   shooty.stopMotor();

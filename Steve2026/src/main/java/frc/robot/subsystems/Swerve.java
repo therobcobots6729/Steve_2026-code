@@ -192,6 +192,9 @@ public void driveRobotRelative(ChassisSpeeds desiredChassisSpeeds, boolean isOpe
   public Rotation2d getGyroYaw() {
     return Rotation2d.fromDegrees(gyro.getYaw().getValueAsDouble()); // here
   }
+  public double Rotation(){
+    return gyro.getYaw().getValueAsDouble();
+  }
 
   public void resetModulesToAbsolute() {
     for (SwerveModule mod : mSwerveMods) {
