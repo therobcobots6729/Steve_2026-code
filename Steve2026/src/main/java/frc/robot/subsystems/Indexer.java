@@ -4,6 +4,8 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.VelocityVoltage;
@@ -18,13 +20,15 @@ public class Indexer extends SubsystemBase {
   /** Creates a new Indexer. */
   
   private TalonFX front;
+  private TalonSRX ramp;
   //private Shooter shooter;
   private Slot0Configs pid;
   private VelocityVoltage index;  
-  private double targetSpeed=100;//0-106
+  private double targetSpeed=75;//0-106
   public Indexer() {
    // this.shooter = shooter;
     front = new TalonFX(39);
+    ramp = new TalonSRX(42);
     pid = new Slot0Configs();
       pid.kP = 0.1; // change this if needed
       pid.kI = 0.0;
@@ -43,10 +47,13 @@ public class Indexer extends SubsystemBase {
   public void runIndexer(){
         
     front.setControl(index.withVelocity(-targetSpeed));
+    ramp.set(ControlMode.PercentOutput, -0.75);
   }
     
   public void stop(){
        front.setControl(index.withVelocity(0));
+       ramp.set(ControlMode.PercentOutput, 0);
+
   }
   
   @Override

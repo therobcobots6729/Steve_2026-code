@@ -49,20 +49,22 @@ private double velocity() {
 
 public double flightTime() {
     double d = limelight.distance();
-        return 0;
+        if (cachedMuzzleVelocity<1){
+            return 0;
+        }
    
-
+        else{
     // using horizontal component for time-of-flight
-    //return d / cachedMuzzleVelocity;
+    return d / cachedMuzzleVelocity;}
 }
 
 public double effectiveDistance() {  
     double d = g;
-   // double vx = swerve.turretVelocity().getX()*39.37; // robot forward velocity (in/s)
+   double vx = swerve.turretVelocity().getX()*39.37; // robot forward velocity (in/s)
     double t = flightTime();
 
     // motion compensation
-    return d - (t);
+    return d - (t*vx)*0;
 }
 
 public double outputSpeed(){

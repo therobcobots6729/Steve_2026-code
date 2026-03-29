@@ -2,6 +2,8 @@ package frc.robot.subsystems;
 
 
 
+import java.util.function.BooleanSupplier;
+
 import com.ctre.phoenix6.configs.Pigeon2Configuration;
 import com.ctre.phoenix6.hardware.Pigeon2;
 import com.pathplanner.lib.auto.AutoBuilder;
@@ -197,7 +199,7 @@ public void driveRobotRelative(ChassisSpeeds desiredChassisSpeeds, boolean isOpe
     }
   }
   
- /* public Translation2d turretVelocity(){
+  public Translation2d turretVelocity(){
  
     ChassisSpeeds T = getCurrentSpeeds();
     
@@ -215,8 +217,9 @@ public void driveRobotRelative(ChassisSpeeds desiredChassisSpeeds, boolean isOpe
 // add to chassis velocity
     
     return h;
-  } */
+  }
 
+  
   @Override
   public void periodic() {
     swerveOdometry.update(getGyroYaw(), getModulePositions());

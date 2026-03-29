@@ -41,6 +41,9 @@ import frc.robot.subsystems.Funnel;
 import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.LimelightHelpers;
+
+import java.util.function.BooleanSupplier;
+
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 /**
@@ -70,7 +73,7 @@ public class RobotContainer {
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final XboxController driver =
       new XboxController(0);
-  private final XboxController operator = new XboxController(1);
+  private final Joystick operator = new Joystick(1);
       
 
   
@@ -92,13 +95,16 @@ public class RobotContainer {
   private final POVButton agitate = new POVButton(driver, 0);
   private final Trigger indexUp = new Trigger(() -> driver.getLeftTriggerAxis() > 0.10);
   private final Trigger rightTrigger = new Trigger(() -> driver.getRightTriggerAxis() > .15 );
-  private final Trigger opTrigger = new Trigger(() -> operator.getRightTriggerAxis() > .15 );
-  private final Trigger opindexUp = new Trigger(() -> operator.getLeftTriggerAxis() > 0.10);
+
   /* Operator Buttons */
-  private final JoystickButton back = new JoystickButton(operator,XboxController.Button.kX.value );
-private final JoystickButton up = new JoystickButton(operator, XboxController.Button.kRightBumper.value);
-  private final JoystickButton down = new JoystickButton(operator,  XboxController.Button.kLeftBumper.value);
-  private final POVButton opagitate = new POVButton(operator, 0);
+  private final JoystickButton back = new JoystickButton(operator, 3);
+  private final JoystickButton up = new JoystickButton(operator, 2);
+  private final JoystickButton down = new JoystickButton(operator, 7);
+  private final JoystickButton opagitate = new JoystickButton(operator, 8);
+  private final JoystickButton opshoot = new JoystickButton(operator, 1);
+  private final JoystickButton opindex = new JoystickButton(operator, 6);
+  private final JoystickButton look = new JoystickButton(operator, 4);
+  //private final JoystickButton slow = new JoystickButton(operator, 5);
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the trigger bindings
@@ -107,7 +113,7 @@ private final JoystickButton up = new JoystickButton(operator, XboxController.Bu
             s_Swerve,
             () -> -driver.getRawAxis(translationAxis),
             () -> -driver.getRawAxis(strafeAxis),
-            () -> -driver.getRawAxis(rotationAxis),
+            () -> driver.getRawAxis(rotationAxis),
             () -> robotCentric.getAsBoolean()));
 
     /*i_Intake.setDefaultCommand(
@@ -153,12 +159,13 @@ private final JoystickButton up = new JoystickButton(operator, XboxController.Bu
     lower.onTrue (new Extended(flip));
     raise.onTrue(new Retracted(flip));
     agitate.onTrue(new Agitate(flip));
-    opindexUp.whileTrue(new RunIndexer(indexer, funnel));
-    opTrigger.whileTrue(new Shooty(shooter));
+    opindex.whileTrue(new RunIndexer(indexer, funnel));
+    opshoot.whileTrue(new Shooty(shooter));
     back.whileTrue(new Reverse(indexer, funnel));
     up.onTrue (new Extended(flip));
     down.onTrue(new Retracted(flip));
       opagitate.onTrue(new Agitate(flip));
+      look.onTrue(new Look(turret,()-> Limelight.hasTarget()));
     
   }
 

@@ -14,6 +14,7 @@ public class TeleopSwerve extends Command {
   private DoubleSupplier strafeSup;
   private DoubleSupplier rotationSup;
   private BooleanSupplier robotCentricSup;
+  private BooleanSupplier a;
   
 
   public TeleopSwerve(
@@ -35,7 +36,6 @@ public class TeleopSwerve extends Command {
 
   @Override
   public void execute() {
-
     double translationVal =
         MathUtil.applyDeadband(translationSup.getAsDouble(), Constants.stickDeadband);
     double strafeVal = MathUtil.applyDeadband(strafeSup.getAsDouble(), Constants.stickDeadband);
@@ -47,6 +47,22 @@ public class TeleopSwerve extends Command {
             new Translation2d(0,0), limelight.x *-.02, true, false);
          }                      
          else{*/
+         /*if (a.getAsBoolean()==true){
+          s_Swerve.drive(
+            new Translation2d(translationVal, strafeVal)
+            .times(Constants.Swerve.maxSpeed * 0.2),
+            rotationVal * Constants.Swerve.maxAngularVelocity * 0.2,
+            !robotCentricSup.getAsBoolean(),
+            true);    
+        }
+        else{
+          s_Swerve.drive(
+            new Translation2d(translationVal, strafeVal)
+            .times(Constants.Swerve.maxSpeed),
+            rotationVal * Constants.Swerve.maxAngularVelocity,
+            !robotCentricSup.getAsBoolean(),
+            true);
+        }*/
       s_Swerve.drive(
         new Translation2d(translationVal, strafeVal)
             .times(Constants.Swerve.maxSpeed),

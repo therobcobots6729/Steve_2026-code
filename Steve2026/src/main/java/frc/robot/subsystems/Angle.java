@@ -24,14 +24,14 @@ public class Angle extends SubsystemBase{
         double t = velocity.flightTime();
         double tx = limelight.Yaw();
     if(t == 0){
-        return tx;}
+        return 0;}
     else{
     double d = limelight.distance();
 
     // sideways robot motion
-   // double vSide = swerve.turretVelocity().getY()*39.37; //in/s
+    double vSide = -swerve.turretVelocity().getY();///39.37; //in/s
 
-    double lead =   t;
+    double lead =   t*vSide*15;
 
     double theta = Math.toDegrees(Math.atan(lead / d));
     
