@@ -63,7 +63,7 @@ public class RobotContainer {
   private final Swerve s_Swerve = new Swerve();
   private final Velocity velocity = new Velocity(Limelight, s_Swerve);
   private final Angle angle = new Angle(velocity, s_Swerve, Limelight);
-  private final Turret turret = new Turret(angle);
+  private final Turret turret = new Turret(angle, s_Swerve);
   private final Flipper flip = new Flipper();
   private final Shooter shooter = new Shooter(velocity);  
   private final Indexer indexer = new Indexer();
@@ -104,7 +104,7 @@ public class RobotContainer {
   private final JoystickButton opshoot = new JoystickButton(operator, 1);
   private final JoystickButton opindex = new JoystickButton(operator, 6);
   private final JoystickButton look = new JoystickButton(operator, 4);
-  //private final JoystickButton slow = new JoystickButton(operator, 5);
+  private final JoystickButton slow = new JoystickButton(operator, 5);
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the trigger bindings
@@ -114,7 +114,8 @@ public class RobotContainer {
             () -> -driver.getRawAxis(translationAxis),
             () -> -driver.getRawAxis(strafeAxis),
             () -> driver.getRawAxis(rotationAxis),
-            () -> robotCentric.getAsBoolean()));
+            () -> robotCentric.getAsBoolean(),
+            () -> slow.getAsBoolean()));
 
     /*i_Intake.setDefaultCommand(
         new RunIntake(
@@ -122,13 +123,14 @@ public class RobotContainer {
             () -> driver.getRawAxis(intakeForward2)));*/
     
     turret.setDefaultCommand( //this runs command automatically
-      new AutoTurret(turret, ()-> Limelight.hasTarget())
-      );
+        new AutoTurret(
+          turret, 
+          ()-> Limelight.hasTarget()));
     configureBindings();
     autoCommands = new AutoCommands( flip, funnel, indexer, shooter, s_Swerve, turret, i_Intake);
 
-        // Set up auto routines
-        autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
+    // Set up auto routines
+    autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
     autoChooser.addOption("middle", autoCommands.startMid());
     autoChooser.addOption("none", null);
     // Another option that allows you to specify the default auto by its name
@@ -153,19 +155,19 @@ public class RobotContainer {
     intakeForward.whileTrue(new RunIntake(i_Intake));
     indexUp.whileTrue(new RunIndexer(indexer, funnel));
     manTurret.whileTrue(new ManTurret(turret));
-    shoot.whileTrue(new Shooty(shooter));
+    shoot.whileTrue(new Shooty(shooter,Limelight));
     intakeReverse.onTrue(new Look(turret, () -> Limelight.hasTarget()));
     rightTrigger.whileTrue(new runShooter(shooter));
     lower.onTrue (new Extended(flip));
     raise.onTrue(new Retracted(flip));
     agitate.onTrue(new Agitate(flip));
     opindex.whileTrue(new RunIndexer(indexer, funnel));
-    opshoot.whileTrue(new Shooty(shooter));
+    opshoot.whileTrue(new Shooty(shooter,Limelight));
     back.whileTrue(new Reverse(indexer, funnel));
     up.onTrue (new Extended(flip));
     down.onTrue(new Retracted(flip));
-      opagitate.onTrue(new Agitate(flip));
-      look.onTrue(new Look(turret,()-> Limelight.hasTarget()));
+    opagitate.onTrue(new Agitate(flip));
+    look.onTrue(new Look(turret,()-> Limelight.hasTarget()));
     
   }
 

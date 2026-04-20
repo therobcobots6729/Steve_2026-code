@@ -36,6 +36,7 @@ public class AutoTurret extends Command {
     if (a.getAsBoolean()){
     turret.runTurrent();
   }
+  
   else{
     turret.feeder();
   }

@@ -1,12 +1,13 @@
 package frc.robot.commands;
 
+import java.util.function.BooleanSupplier;
+import java.util.function.DoubleSupplier;
+
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 import frc.robot.subsystems.Swerve;
-import java.util.function.BooleanSupplier;
-import java.util.function.DoubleSupplier;
 
 public class TeleopSwerve extends Command {
   private Swerve s_Swerve;
@@ -22,7 +23,8 @@ public class TeleopSwerve extends Command {
       DoubleSupplier translationSup,
       DoubleSupplier strafeSup,
       DoubleSupplier rotationSup,
-      BooleanSupplier robotCentricSup
+      BooleanSupplier robotCentricSup,
+      BooleanSupplier a
       ) {
     this.s_Swerve = s_Swerve;
     addRequirements(s_Swerve);
@@ -31,6 +33,7 @@ public class TeleopSwerve extends Command {
     this.strafeSup = strafeSup;
     this.rotationSup = rotationSup;
     this.robotCentricSup = robotCentricSup;
+    this.a = a;
     
   }
 
@@ -63,12 +66,22 @@ public class TeleopSwerve extends Command {
             !robotCentricSup.getAsBoolean(),
             true);
         }*/
+    if (a.getAsBoolean()){
       s_Swerve.drive(
-        new Translation2d(translationVal, strafeVal)
-            .times(Constants.Swerve.maxSpeed),
-        rotationVal * Constants.Swerve.maxAngularVelocity,
-        !robotCentricSup.getAsBoolean(),
-        true);
+      new Translation2d(translationVal, strafeVal)
+          .times(Constants.Swerve.maxSpeed),
+      rotationVal * Constants.Swerve.maxAngularVelocity,
+      !robotCentricSup.getAsBoolean(),
+      true);
+    }
+    else {
+      s_Swerve.drive(
+      new Translation2d(translationVal, strafeVal)
+          .times(Constants.Swerve.maxSpeed * 0.35),
+      rotationVal * Constants.Swerve.maxAngularVelocity * 0.35,
+      !robotCentricSup.getAsBoolean(),
+      true);
     }
   }
+}
 

@@ -85,7 +85,7 @@ public void runShooty(){
     shooty.setControl(shoot.withVelocity(velocity.outputSpeed()));  
 }
 public void feedSpeed(){
-      shooty.setControl(shoot.withVelocity(80));  
+      shooty.setControl(shoot.withVelocity(65));  
 
 }
 
